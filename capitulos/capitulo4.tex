@@ -1,0 +1,232 @@
+\section{Recapitulaci\'on de\\
+Cap\'itulos Previos}
+
+\begin{itemize}
+    \item $f\colon(0,\infty)\to\mathbb{R}$ con $f(1)=0$ y $f$ convexa.
+    \item Para $P,Q\in\mathcal{P}(\mathcal{X})$, se define su \textbf{$f$-divergencia} como
+    \begin{equation*}
+        D_f(P\|Q)=\sum_{x\in\mathcal{X}}f\left(\frac{P(x)}{Q(x)}\right)Q(x).
+    \end{equation*}
+    \item \textbf{Kernel de Markov}: $K(y|x)=\mathbb{P}(Y=y|X=x)$
+    \begin{equation*}
+        X\to\fbox{$K$}\to Y.
+    \end{equation*}
+    \item \textbf{$f$-Divergencia Condicional} de $P_{Y|X}$ y $Q_{Y|X}$ dada $P_X$ se define como
+    \begin{align*}
+        D_f(P_{Y|X}\|Q_{Y|X}|P_X)=\sum_{x\in\mathcal{X}}P_X(x)D_f(P_{Y|X}(\cdot|x)\|Q_{Y|X}(\cdot|x))
+    \end{align*}
+    \item Propiedades de las $f$-divergemcias:
+    \begin{enumerate}[label=(\alph*)]
+        \item $D_f(P\|Q)\geq0$,
+        \item $(P,Q)\mapsto D_f(P\|Q)$ es convexa,
+        \item \textbf{Desigualdad del Procesamiento de Datos}:
+        \begin{align*}
+            X\sim P_X\to&\fbox{$K$}\to Y\sim P_Y=KP_X\\
+            X'\sim Q_X\to&\fbox{$K$}\to Y'\sim Q_Y=KQ_X
+        \end{align*}
+        \begin{equation*}
+            D_f(KP_X\|KQ_X)\leq D_f(P_X\|Q_X).
+        \end{equation*}
+        \end{enumerate}
+        \item Ejemplos:
+        \begin{enumerate}[label=(\alph*)]
+            \item \textbf{Kullback-Leibler}:
+            \begin{equation*}
+                D_{KL}(P\|Q)=\sum_{x\in\mathcal{X}}\log\left(\frac{P(x)}{Q(x)}\right)P(x),
+            \end{equation*}
+            \begin{equation*}
+                f(t)=t\log(t).
+            \end{equation*}
+            \item \textbf{Variaci\'on Total}:
+            \begin{equation*}
+                TV(P,Q)=\frac{1}{2}\sum_{x\in\mathcal{X}}|P(x)-Q(x)|,
+            \end{equation*}
+            \begin{equation*}
+                f(t)=\frac{1}{2}|t-1|.
+            \end{equation*}
+    \end{enumerate}
+\end{itemize}
+\section{Algunas Consecuencias Sobre\\ Estadisticas Suficientes}
+\begin{definition}
+Sea $(X,Y)$ un vector aleatorio con valores en el espacio $\mathcal{X}\times\mathcal{Y}$. Si su distribuci\'on conjunta est\'a dada por $P_{(X,Y)}$ y sus distribuciones marginales son $P_X$ y $P_Y$, su \textit{\textbf{informaci\'on mutua}} es definida por:
+\begin{equation*}
+    I(X;Y)=D_{KL}(P_{(X,Y)}\|P_XP_Y)
+\end{equation*}
+\end{definition}
+\begin{observation}
+Dado un par\'ametro $\theta\in\Theta$, le es asociado una muestra aleatoria $
+X^n$ y a trav\'es de un Kernel de Markov $K$, se le asocia un estad\'istico $T$, \textit{i.e.}, $\theta\to X^n\overset{K}{\to}T$. 
+As\'i, para cualquier estad\'istico $T$ y cualquier $P_\theta\in\mathcal{P}(\Theta)$, se cumple que:
+\begin{align*}
+    I(\theta;T)&=D_{KL}(P_{\theta,T}\|P_\theta P_T)\\
+    &=D_{KL}\left(\overset{\sim}{K}P_{\theta,X^n}\Big\|\overset{\sim}{K}(P_\theta P_{X^n})\right)\\
+    &\leq D_{KL}(P_{\theta,X^n}\|P_\theta P_{X^n})\quad\text{(DPI)}\\
+    &=I(\theta;X^n).
+\end{align*}
+\end{observation}
+
+\begin{definition}
+Una estad\'istica $T$ de una muestra $X^n$ y par\'ametro $\theta$ es \textit{\textbf{suficiente}} si 
+\begin{equation*}
+    I(\theta;T)=I(\theta;X^n).
+\end{equation*}
+\end{definition}
+
+\section{F\'ormulas Variacionales para $TV$ y $KL$}
+
+\begin{theorem}
+\begin{equation*}
+    TV(P,Q)=\sup_{E\subseteq\mathcal{X}}\{P(E)-Q(E)\}.
+\end{equation*}
+\end{theorem}
+\begin{proof}[\textbf{Demostraci\'on}]
+( $\geq$ ): Sea $E\subseteq\mathcal{X}$. Observemos que
+\begin{align*}
+    P(E)-Q(E^c)&=Q(E)-P(E^c), \\
+    \Longrightarrow P(E)-Q(E)&=Q(E^c)-P(E^c).
+\end{align*}
+Por lo tanto,
+\begin{align*}
+    P(E)-Q(E)&=\frac{1}{2}\Bigl(P(E)-Q(E)+Q(E^c)-P(E^c)\Bigl)\\
+    &=\frac{1}{2}\left(\sum_{x\in E}\{P(x)-Q(x)\}+\sum_{x\in E^c}\{Q(x)-P(x)\}\right)\\
+    &\leq\frac{1}{2}\left(\sum_{x\in E}|P(x)-Q(x)|+\sum_{x\in E^c}|P(x)-Q(x)|\right).
+\end{align*}
+Por lo que,
+\begin{align*}
+    P(E)-Q(E)\leq\frac{1}{2}\sum_{x\in\mathcal{X}}|P(x)-Q(x)|=TV(P,Q).
+\end{align*}
+Puesto que $E\subseteq\mathcal{X}$ es arbitrario,
+\begin{equation*}
+    \sup_{E\subseteq\mathcal{X}}\{P(E)-Q(E)\}\leq TV(P,Q).
+\end{equation*}
+\noindent( $\leq$ ): Definimos $E_0=\{x\colon P(x)\geq Q(x)\}$. Con esta notaci\'on:
+\begin{align*}
+    \sup_{E\subseteq\mathcal{X}}\{P(E)-Q(E)\}&\geq P(E_0)-Q(E_0)\\
+    &=\frac{1}{2}\Bigl(P(E_0)-Q(E_0)+Q(E_0^c)-P(E_0^c)\Bigl)\\
+    &=\frac{1}{2}\left(\sum_{x\in E_0}\{P(x)-Q(x)\}+\sum_{x\in E_0^c}\{Q(x)-P(x)\}\right)\\
+    &=\frac{1}{2}\left(\sum_{x\in E_0}|P(x)-Q(x)|+\sum_{x\in E_0^c}|P(x)-Q(x)|\right)\\
+    &=TV(P,Q).
+\end{align*}
+\end{proof}
+
+\begin{theorem}
+\begin{equation*}
+    TV(P,Q)=\frac{1}{2}\sup_{\|f\|_{\infty}\leq1}\biggl\{\sum_{x}f(x)P(x)-\sum_{x}f(x)Q(x)\biggl\},
+\end{equation*}
+donde $\|f\|_{\infty}=\sup_{x\in\mathcal{X}}|f(x)|$.
+\end{theorem}
+\begin{proof}[\textbf{Demostraci\'on}]
+( $\leq$ ): Para cada $E\subseteq\mathcal{X}$, definimos la funci\'on,
+\begin{equation*}
+    f_E(x)=\mathds{1}_E(x)-\mathds{1}_{E^c}(x).
+\end{equation*}
+Es f\'acil ver que $\|f\|_{\infty}=1$ y 
+\begin{align*}
+    \sum_{x\in\mathcal{X}}f_E(x)P(x)&=\sum_{x\in E}P(x)-\sum_{x\in E^c}P(x)\\
+    &=P(E)-P(E^c).
+\end{align*}
+Por la proposici\'on anterior
+\begin{align*}
+    TV(P,Q)&=\sup_{E\subseteq\mathcal{X}}\{P(E)-Q(E)\}\\
+    &=\sup_{E\subseteq\mathcal{X}}\frac{1}{2}\Bigl(P(E)-Q(E)+Q(E^c)-P(E^c)\Bigl)\\
+    &=\sup_{E\subseteq\mathcal{X}}\frac{1}{2}\left(\sum_{x\in\mathcal{X}}f_E(x)P(x)-\sum_{x\in\mathcal{X}}f_E(x)Q(x)\right)\\
+    &=\sup_{f_E\colon E\subseteq\mathcal{X}}\frac{1}{2}\biggl\{\sum_{x\in\mathcal{X}}f_E(x)P(x)-\sum_{x\in\mathcal{X}}f_E(x)Q(x)\biggl\}\quad\text{( $\|f\|_\infty=1$ )}\\
+    &\leq\sup_{\|f\|_\infty\leq1}\frac{1}{2}\biggl\{\sum_{x\in\mathcal{X}}f(x)P(x)-\sum_{x\in\mathcal{X}}f(x)Q(x)\biggl\}\\
+    &\quad\text{( $\{f_E\colon E\subseteq\mathcal{X}\}\subseteq\{f\colon\|f\|_\infty\leq1\}$ )}.
+\end{align*}
+\noindent( $\geq$ ): Sea $f$ tal que $\|f\|_\infty\leq1$. Observemos que:
+\begin{align*}
+    \frac{1}{2}\left(\sum_{x\in\mathcal{X}}f(x)P(x)-\sum_{x\in\mathcal{X}}f(x)Q(x)\right)&=\frac{1}{2}\sum_{x\in\mathcal{X}}f(x)(P(x)-Q(x))\\
+    &\leq\frac{1}{2}\sum_{x\in\mathcal{X}}|f(x)||P(x)-Q(x)|\\
+    &\leq\frac{1}{2}\sum_{x\in\mathcal{X}}|P(x)-Q(x)|=TV(P,Q).
+\end{align*}
+Como $f$ con $\|f\|_\infty\leq1$ es arbitraria,
+\begin{equation*}
+    \sup_{\|f\|_\infty\leq1}\frac{1}{2}\biggl\{\sum_{x\in\mathcal{X}}f(x)P(x)-\sum_{x\in\mathcal{X}}f(x)Q(x)\biggl\}\leq TV(P,Q).
+\end{equation*}
+\end{proof}
+
+\begin{theorem}[\textbf{Donsker-Varadhan}]
+    \begin{equation*}
+        D_{KL}(P\|Q)=\sup_f\Biggl\{\sum_{x\in\mathcal{X}}f(x)P(x)-\log\left(\sum_{x\in\mathcal{X}}e^{f(x)}Q(x)\right)\Biggl\}
+    \end{equation*}
+donde el supremo es sobre todas las $f$ tales que:
+\begin{equation*}
+    \sum_{x\in\mathcal{X}}e^{f(x)}Q(x)<\infty.
+\end{equation*}
+\end{theorem}
+\begin{proof}[\textbf{Demostraci\'on}]
+( $\leq$ ): Sea $f_0(x)=\log(P(x)/Q(x))$. Se puede verificar que 
+\begin{align*}
+    D_{KL}(P\|Q)&=\sum_{x\in\mathcal{X}}f_0(x)P(x)-\log\left(\sum_{x\in\mathcal{X}}e^{f(x)}Q(x)\right)\\
+    &\leq\sup_{f}\Biggl\{\sum_{x\in\mathcal{X}}f(x)P(x)-\log\left(\sum_{x\in\mathcal{X}}e^{f(x)}Q(x)\right)\Biggl\}.
+\end{align*}
+\noindent( $\geq$ ): Sea $f$ tal que $\sum_{x}e^{f(x)}Q(x)<\infty$. Observemos que
+\begin{align*}
+    &\sum_{x}f(x)P(x)-\log\left(\sum_{x'\in\mathcal{X}}e^{f(x')}Q(x')\right)\\
+    &=\sum_{x}\log\left(\frac{e^{f(x)}}{\sum_{x'}e^{f(x')}Q(x')}\right)P(x)\\
+    &=\sum_x\log\left(\frac{P(x)}{Q(x)}\cdot\frac{e^{f(x)}Q(x)/\sum_{x'}e^{f(x')}Q(x')}{P(x)}\right)P(x)\\
+    &=\sum_x\log\left(\frac{P(x)}{Q(x)}\right)P(x)-\sum_{x}\log\left(\frac{P(x)}{e^{f(x)}Q(x)/\sum_{x'}e^{f(x')}Q(x')}\right)P(x)\\
+    &\leq D_{KL}(P\|Q)\quad\left(\text{ $e^{f(x)}Q(x)/\sum_{x'}e^{f(x')}Q(x')=Q(x)$ }\right).
+\end{align*}
+Como $f$ es arbitraria:
+\begin{equation*}
+    \sup_f\Biggl\{\sum_{x}f(x)P(x)-\log\left(\sum_xe^{f(x)}Q(x)\right)\Biggl\}\leq D_{KL}(P\|Q).
+\end{equation*}
+\end{proof}
+
+\begin{observation}
+Notemos que:
+\begin{equation*}
+    \sum_{x\in\mathcal{X}}e^{\lambda f(x)}Q(x)=\mathbb{E}\left[e^{\lambda Z}\right],
+\end{equation*}
+con $Z=f(X)$ y $X\sim Q$.
+\end{observation}
+
+\section{Demostraci\'on de la\\
+Desigualdad de Pinsker}
+\begin{theorem}[\textbf{Desigualdad de Pinsker}]
+    \begin{equation*}
+        TV(P,Q)\leq\sqrt{\frac{D_{KL}(P\|Q)}{2}}.
+    \end{equation*}
+\end{theorem}
+\begin{proof}[\textbf{Demostraci\'on}]
+Sea $f$ tal que $\|f\|_\infty\leq1$. Para cada $\lambda>0$, por el Teorema de Donsker-Varadhan, 
+\begin{align*}
+    D_{KL}(P\|Q)&\geq\sum_{x}\lambda f(x)P(x)-\log\left(\sum_{x\in\mathcal{X}}e^{\lambda f(x)}Q(x)\right)\\
+    &=\lambda\sum_{x}f(x)P(x)-\log\left(\mathbb{E}[e^{\lambda Z}]\right),
+\end{align*}
+con $Z=f(X)$ y $X\sim Q$. Observemos que
+\begin{align*}
+    \mathbb{E}[e^{\lambda Z}]&=\mathbb{E}[e^{\lambda(Z-\mathbb{E}(Z))}]e^{\lambda\mathbb{E}[Z]}\\
+    &\leq e^{\lambda^2/2}e^{\lambda\mathbb{E}[Z]}\quad\text{(Desigualdad de Hoeffding)}.
+\end{align*}
+Por lo cual,
+\begin{equation*}
+   D_{KL}(P\|Q)\geq\lambda\sum_{x}f(x)P(x)-\frac{\lambda^2}{2}-\lambda\mathbb{E}[Z]. 
+\end{equation*}
+Notemos que:
+\begin{equation*}
+    \mathbb{E}[Z]=\sum_{x}f(x)Q(x),
+\end{equation*}
+por lo que
+\begin{equation*}
+    D_{KL}(P\|Q)\geq\lambda\left(\sum_xf(x)P(x)-\sum_xf(x)Q(x)\right)-\frac{\lambda^2}{2}.
+\end{equation*}
+Tomando $\lambda=\sqrt{2 D_{KL}(P\|Q)}$, se concluye que:
+\begin{equation*}
+    \frac{1}{2}\left(\sum_xf(x)P(x)-\sum_xf(x)Q(x)\right)\leq\sqrt{\frac{D_{KL}(P\|Q)}{2}},
+\end{equation*}
+puesto que $f$ con $\|f\|_\infty\leq1$ es arbitraria. 
+\end{proof}
+
+\begin{corollary}
+Si $P_n$, $Q$ son tales que $D_{KL}(P_n\|Q)\to0$. entonces
+\begin{equation*}
+    TV(P_n,Q)\to0.
+\end{equation*}
+\end{corollary}
+
+\begin{observation}
+Notemos que, intuitivamente, la Desigualdad de Pinsker, nos dice que, para divergencias pequeñas, las estimaciones suelen ser casi iguales.      
+\end{observation}

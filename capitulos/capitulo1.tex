@@ -1,0 +1,290 @@
+\section{S\'implex de Probabilidad}
+
+\begin{definition}\cite{differentialpriv}
+Dada $n\in\mathbb{N}$ el \textbf{\textit{s\'implex de probabilidad}} en $\mathbb{R}^n$ es el conjunto definido por:
+\begin{equation}\label{eq:Simplex}
+    \mathcal{P}([n]):=\{p\in\mathbb{R}^n\colon p_1,\dots,p_n\geq0,\,p_1+\cdots+p_n=1\}.
+\end{equation}
+\end{definition}
+
+Para esta definici\'on, tenemos las siguientes observaciones:
+\begin{itemize}
+    \item $\mathcal{P}([n])$ codifica el conjunto de distribuciones de probabilidad sobre $\{1,2,\dots,n\}$. 
+    \item Desde una perspectiva estad\'istica, la geometr\'ia de $\mathcal{P}([n])$ resulta no ser obvia. 
+\end{itemize}
+
+\section{$f$-Divergencias I: Definici\'on}
+
+\begin{notation} Como convenci\'on, sea $f\colon(0,\infty)\to\mathbb{R}$ una funci\'on convexa tal que $f(1)=0$
+\end{notation}
+\begin{notation}
+    Cualquier funci\'on de densidad de probailidad a lo largo del texto estar\'a denotada por \textbf{FDP}. Para este seminario, supondremos que las FDP son discretas. Sin embargo, las propiedades que enunciaremos pueden ser generalizadas al caso continuo. 
+\end{notation}
+
+\begin{definition}\cite{1571417125811646464}
+    Dadas las FDP $P$ y $Q$ la \textbf{\textit{$f$-divergencia}} de $P$ con respecto a $Q$ se define como:
+    \begin{equation}\label{eq:fDivergencia}
+        D_f(P\|Q)=\sum_{x\in\mathcal{X}}f\left(\frac{P(x)}{Q(x)}\right)Q(x).
+    \end{equation}
+\end{definition}
+
+\begin{example}\cite{1571417125811646464}
+Como ejemplos de $f$-divergencias, tenemos los siguientes:
+\begin{enumerate}[label=(\alph*)]
+    \item \textbf{Distancia de Variaci\'on total}:
+    \begin{equation*}
+        f(t)=\frac{1}{2}|t-1|.
+    \end{equation*}
+    Observemos que, dadas las FDP $P$ y $Q$, tendremos que:
+    \begin{align}
+    TV(P,Q)&=\sum_{x}f\left(\frac{P(x)}{Q(x)}\right)Q(x)\nonumber\\
+    &=\sum_{x}\frac{1}{2}\bigg|\frac{P(x)}{Q(x)}-1\bigg| Q(x)\nonumber\\
+    &=\frac{1}{2}\sum_{x}|P(x)-Q(x)|.\label{eq:TV}
+    \end{align}
+    Adem\'as, notemos la siguiente relaci\'on con la distancia $L^1$: 
+    \begin{equation*}
+        L^1(P,Q)=\sum_{x}|P(x)-Q(x)|=2\left(\frac{1}{2}\sum_{x}|P(x)-Q(x)|\right)=2\cdot TV(P,Q).
+    \end{equation*}
+    Dado que $L^1(P,Q)=2\cdot TV(P,Q)$, entonces $TV(P,Q)$ hereda todas las propiedades necesarias para ser una funci\'on distancia. 
+    \item \textbf{Divergencia de Hellinger}: 
+    \begin{equation*}
+        f_\alpha(t)=\frac{t^\alpha-1}{\alpha-1}
+    \end{equation*}
+    Calculando la divergencia para $\alpha=1/2$, obtendremos que:
+    \begin{align}
+        H^2(P,Q)&=\sum_x\left(\frac{\sqrt{\frac{P(x)}{Q(x)}}-1}{-1/2}\right)Q(x)\nonumber\\
+        &=2-2\sum_x\sqrt{P(x)Q(x)}\,.\label{eq:Hellinger}
+    \end{align}
+    Se puede notar que en este caso $H^2(P,Q)$ es una distancia. En efecto, pues para $H ^2(P,Q)$ sucede lo siguiente:
+    \begin{enumerate}
+        \item[(i)] Dado que $P$ y $Q$ son FDP, entonces $P(x)\geq0$ y $Q(x)\geq0$ para toda $x\in\mathcal{X}$. Adem\'as, se tiene que 
+        \begin{equation*}
+            H^2(P,Q)=2-2\sum_{x}\sqrt{P(x)Q(x)}=2\left(1-\sum_{x}\sqrt{P(x)Q(x)}\right).
+        \end{equation*}
+        De lo anterior, podemos decir que, 
+        \begin{equation*}
+            0\leq\sum_{x}\sqrt{P(x)Q(x)}\leq1,
+        \end{equation*}
+        pues $P$ y $Q$ son FDP. Por lo tanto, se tiene que
+        \begin{equation*}
+            H^2(P,Q)=2-2\sum_{x}\sqrt{P(x)Q(x)}=2\left(1-\sum_{x}\sqrt{P(x)Q(x)}\right)\geq0.
+        \end{equation*}
+        Se puede observar que $H^2(P,Q)=0$ si y solo si $P=Q$, pues, si $P=Q$ podemos notar lo siguiente:
+        \begin{align*}
+            H^2(P,Q)&=2-2\sum_{x}\sqrt{P(x)P(x)}\\
+            &=2-2\sum_{x}\sqrt{P^2(x)}\\
+            &=2-2\sum_{x}P(x)=2-2=0.
+        \end{align*}
+        \item[(ii)] Se cumple la propiedad de simetr\'ia, pues para cualuquier $P$ y $Q$ FDP, ocurre lo siguiente:
+        \begin{align*}
+            H^2(P,Q)&=2-2\sum_{x}\sqrt{P(x)Q(x)}\\
+            &=2-2\sum_{x}\sqrt{Q(x)P(x)}\\
+            &=H^2(Q,P)
+        \end{align*}
+        \item[(iii)] Finalmente, para cualquier $P,Q$ y $R$ FDP, se cumple lo siguiente:
+        \begin{align*}
+            H^2(P,R)&=2-2\sum_{x}\sqrt{P(x)R(x)}\\
+            &\leq\left(2-2\sum_{x}\sqrt{P(x)Q(x)}\right)+\left(2-2\sum_{x}\sqrt{Q(x)R(x)}\right)\\
+            &=H^2(P,Q)+H^2(Q,R)
+        \end{align*}
+    \end{enumerate}
+    \item \textbf{Divergencia de Kullback-Leibler}: 
+    \begin{equation*}
+        f(t)=t\log{t}
+    \end{equation*}
+    Entonces para este caso la divergencia estar\'a dada por:
+    \begin{align}
+        D_{KL}(P\|Q)&=\sum_x\frac{P(x)}{Q(x)}\log\left(\frac{P(x)}{Q(x)}\right)Q(x)\nonumber\\
+        &=\sum_xP(x)\log\left(\frac{P(x)}{Q(x)}\right)\label{eq:KL}
+    \end{align}
+\end{enumerate}
+Como veremos, algunas $f$-divergencias pueden tener operacionalmente interpretaciones \'utiles.  
+\end{example}
+
+\section{$f$-Divergencias II: Propiedades B\'asicas}
+
+\begin{theorem}\cite{polyanskiy2014lecture}
+Dadas $P$ y $Q$ FDP, se cumplen las siguientes propiedades:
+\begin{enumerate}[label=(\alph*)]
+    \item $D_f(P\|Q)\geq0$,
+    \item Si $f$ es estrictamente convexa en 1, entonces
+    \begin{equation*}
+        D_f(P\|Q)=0\iff P=Q,
+    \end{equation*}
+    \item $(P,Q)\mapsto D_f(P\|Q)$ es convexa.
+\end{enumerate}
+\end{theorem}
+\begin{notation}\cite{polyanskiy2014lecture}
+    Denotaremos a un \textbf{\textit{Kernel de Markov}} o \textbf{\textit{Mecanismo de Privacidad}} por:
+    \begin{equation*}
+        K(y|x)=\mathbb{P}(Y=y|X=x).
+    \end{equation*}
+    Dada una FDP $P$, definimos a $KP$ como:
+    \begin{equation*}
+        KP(y)=\sum_{x\in\mathcal{X}}P(x)K(y|x)
+    \end{equation*}
+\end{notation}
+
+\begin{theorem}[\textbf{Desigualdad del Procesamiento de Datos}]\cite{polyanskiy2014lecture}
+    Dadas $P$ y $Q$ FDP y una f-divergencia $D_f$, $\forall K$ kernel de Markov se cumple la siguiente desigualdad:
+    \begin{equation}\label{eq:DPI}
+        D_f(KP\|KQ)\leq D_f(P\|Q).
+    \end{equation}
+\end{theorem}
+
+\section{$f$-Divergencias III: Divergencia del Palo de Hockey}
+
+\begin{definition}
+    Para $\gamma\in(0,\infty)$, la \textbf{\textit{Divergencia del Palo de Hockey}} es la $f$-divergencia definida por:
+    \begin{align}\label{eq:Hockey}
+         f_\gamma(t)=
+         \begin{cases}
+             (\gamma-t)_+ &\quad{\gamma<1,}\\
+             (t-\gamma)_+ &\quad{\gamma>1},
+         \end{cases}
+    \end{align}
+    donde $(x)_+=\max\{0,x\}$.
+    A continuaci\'on denotaremos a esta divergencia por $E_{\gamma}$.
+\end{definition}
+
+En la figura~\ref{fig:hockey}, 
+podemos ver la gr\'afica de esta funci\'on en el caso de $\gamma=2$. 
+Podemos notar que la gráfica tiene forma de un palo de hockey, la cu\'al es la razón de que esta funci\'on reciba este nombre.
+\begin{figure}[h!]
+\begin{center}
+\begin{tikzpicture}[
+  declare function={
+    func(\x)= (\x <= 2) * (0)   +
+              (\x > 2) * (\x-2)
+   ;
+  }
+]
+\begin{axis}[
+  axis x line=middle, axis y line=middle,
+  ymin=0, ymax=6, ytick={0,...,6}, ylabel=$f_\gamma(t)$,
+  xmin=0, xmax=6, xtick={0,...,6}, xlabel=$t$,
+  domain=0:6,samples=101, 
+]
+
+\addplot [Cyan,thick] {func(x)};
+\legend{$(t-\gamma)_+$}
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\caption{Divergencia del palo de hockey para $\gamma=2$.}\label{fig:hockey}
+\end{figure}
+
+\begin{theorem}
+    Dadas $P$ y $Q$ FDP, se cumplen las siguientes propiedades:
+    \begin{enumerate}[label=(\alph*)]
+        \item $\lim_{\gamma\to1}E_\gamma(P\|Q)=TV(P,Q)$,
+        \item $\gamma<1$: $E_\gamma(P\|Q)=\sup_{A\subset\mathcal{X}}[\gamma Q(A)-P(A)]$,
+        \item $\gamma>1$: $E_\gamma(P\|Q)=\sup_{A\subset\mathcal{X}}[P(A)-\gamma Q(A)]$,
+        \item Si $f$ es dos veces diferenciable, entonces
+        \begin{equation*}
+            D_f(P\|Q)=\int_{0}^{\infty}E_\gamma(P\|Q)f''(\gamma)d\gamma.
+        \end{equation*}
+    \end{enumerate}
+\end{theorem}
+
+\section{$f$-Divergencias IV: Relaci\'on entre $f$-Divergencias}
+
+\begin{theorem}[\textbf{Desigualdad de Pinsker}]
+    Dadas $P$ y $Q$ FDP, se cumple la siguiente desigualdad:
+    \begin{equation}\label{eq:Pinsker}
+        TV(P,Q)\leq\sqrt{\frac{D_{KL}(P\|Q)}{2}}.
+    \end{equation}
+\end{theorem}
+
+\begin{theorem}
+    Dadas $P$ y $Q$ FDP, si $H^2(P,Q)$ es la divergencia de Hellinger
+    para $\alpha=2$, ver~\eqref{eq:Hellinger}, entonces
+    \begin{equation}\label{eq:H2TVH}
+        \frac{1}{2}H^2(P,Q)\leq TV(P,Q)\leq H(P,Q).
+    \end{equation}
+\end{theorem}
+
+Podemos comenzar a notar que existen muchas relaciones entre $f$-divergencias. 
+Sin embargo, en la siguiente secci\'on, veremos que existe una forma sistem\'atica de obtenerlas.  
+
+\section{$f$-Divergencias V: Estrategia del Rango Conjunto}
+\begin{definition}\cite{jivri2002lectures}
+Un conjunto $C\subseteq\mathbb{R}^d$ es \textbf{\textit{convexo}} si para cualesquiera puntos $x,y\in C$ el segmento $xy$ est\'a totalmene contenido en $C$, es decir, para toda $t\in[0,1]$, se tiene que $tx+(1-t)y\in C$.
+\end{definition}
+
+\begin{definition}\cite{jivri2002lectures}
+Se define la \textbf{\textit{envolvente convexa}} de un conjunto $X\subseteq\mathbb{R}^d$, denotada por $\text{conv}(X)$, como la itersecci\'on de todos los conjuntos convexos en $\mathbb{R}^d$ que contienen a $X$.   
+\end{definition}
+
+\begin{theorem}\cite{jivri2002lectures}
+Dado un conjunto $X\subseteq\mathbb{R}^d$, un punto $x$ pertenece a $\text{conv}(X)$ si y solo si existen puntos $x_1,x_2,\dots,x_n\in X$ y reales no negativos $t_1,t_2,\dots,t_n$, con $\sum_{i=1}^{n}t_i=1$, tal que $\sum_{i=1}^{n}t_ix_i=x$.    
+\end{theorem}
+
+\begin{notation}\cite{harremoes2011pairs}
+    Dadas dos $f$-divergencias $D_f$ y $D_g$, su \textit{\textbf{rango conjunto}} est\'a definido como:
+    \begin{align*}
+        \mathcal{R}(f,g)&:=\{(D_f(P\|Q),D_g(P\|Q))\colon P,Q\text{ FDP en alg\'un alfabeto $\mathcal{X}$}\},\\
+        \mathcal{R}_2(f,g)&:=\{(D_f(P\|Q),D_g(P\|Q))\colon P,Q\text{ FDP en $\{0,1\}$}\}.
+    \end{align*}
+\end{notation}
+
+\begin{theorem}\cite{harremoes2011pairs}
+    Dadas dos funciones convexas $f$ y $g$ se cumple la siguiente igualdad:
+    \begin{equation*}
+        \mathcal{R}(f,g)=\text{conv}(\mathcal{R}_2(f,g)).
+    \end{equation*}
+donde $\text{conv}(\mathcal{R}_2(f,g))$, representa la envolvente convexa de $\mathcal{R}_2(f,g)$, seg\'un la Definici\'on 1.6.2.    
+\end{theorem}
+
+Como consecuencia de la definici\'on anterior y las desigualdades mencionadas en la secci\'on anterior, se cumple el siguiente teorema:
+
+\begin{theorem}\cite{harremoes2011pairs}
+    Dadas $P$ y $Q$ FDP, se cumple la siguiente desigualdad:
+    \begin{equation}\label{eq:H2TVHsqrtH}
+        \frac{1}{2}H^2(P,Q)\leq TV(P,Q)\leq H(P,Q)\sqrt{1-H^2(P,Q)/4}.
+    \end{equation}
+\end{theorem}
+
+\section{$f$-Divergencias VI: Desigualdad Fuerte del\\ Procesamiento de Informaci\'on}
+
+\begin{definition}\cite{ahlswede1976spreading,dobrushin1956central}
+    El \textit{\textbf{coeficiente de contracci\'on}} de un Kernel de Markov $K$ sobre una $f$-divergencia $D_f$, es definido como:
+    \begin{equation}\label{eq:ContractionCoeff}
+        \eta_f(K)=\sup_{P,Q:\;0<D_f(P\|Q)<\infty}\frac{D_f(KP\|KQ)}{D_f(P\|Q)}.
+    \end{equation}
+\end{definition}
+
+\begin{theorem}\cite{ahlswede1976spreading,dobrushin1956central}
+    Para toda $P$ y $Q$ FDP se cumple la siguiente desigualdad:
+    \begin{equation}\label{eq:StrongDPI}
+        D_f(KP\|KQ)\leq\eta_f(K)D_f(P\|Q).
+    \end{equation}
+\end{theorem}
+
+\begin{theorem}\cite{ahlswede1976spreading,dobrushin1956central}
+    Si $K$ es un Kernel de Markov, entonces
+    \begin{equation}\label{eq:TVContractionCoeff}
+        \eta_{TV}(K)=\sup_{x_1,x_2\in\mathcal{X}}TV(K(\cdot|x_1)\|K(\cdot|x_2)).
+    \end{equation}
+\end{theorem}
+
+\section{$f$-Divergencias VII: F\'ormula Generalizada de Dobrushin}
+
+\begin{notation}\cite{asoodeh2020contraction,cohen1998comparisons}
+    Para mayor facilidad en nuestra notaci\'on, diremos que $\eta_\gamma:=\eta_{E_\gamma}$.
+\end{notation}
+
+\begin{theorem}\cite{asoodeh2020contraction,cohen1998comparisons}
+Sea $\gamma\in(0,\infty)$. Si $K$ es un Kernel de Markov, entonces:
+\begin{equation*}
+    \eta_\gamma(K)=\sup_{x_1,x_2\in\mathcal{X}}E_\gamma(K(\cdot|x_1)\|K(\cdot|x_2)).
+\end{equation*}
+\end{theorem}
+
+\begin{theorem}\cite{asoodeh2020contraction,cohen1998comparisons}
+    Si $K$ es un Kernel de Markov, entonces se cumplen las siguientes desigualdades entre coeficientes de contracci\'on:
+    \begin{enumerate}[label=(\alph*)]
+        \item $\eta_\gamma(K)\leq\eta_{TV}(K)\leq1-\displaystyle{\frac{1-\eta_\gamma(K)}{\gamma}}$ para toda $\gamma\geq1$,
+        \item $\eta_f(K)\leq\eta_{TV}(K)$ para toda $f$-divergencia.
+    \end{enumerate}
+\end{theorem}

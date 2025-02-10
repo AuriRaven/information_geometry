@@ -1,0 +1,129 @@
+\documentclass[12pt,a4paper,twoside]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,mexico]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{color,soul}
+\definecolor{my_orchid}{rgb}{64,0,64}
+\usepackage{pgfplots}
+\usepackage[dvipsnames]{xcolor}
+\pgfplotsset{compat=1.18, width=10cm}
+\usepackage[a4paper, total={6in, 8in}]{geometry}
+\usepackage{dsfont}
+\usepackage{mathrsfs}
+\usepackage{titlepic}
+\usepackage{pdfpages}
+\usepackage{graphicx}
+\usepackage{pgfplots}
+\pgfplotsset{width=10cm,compat=1.9}
+\usepackage{notes2bib}
+\usepackage{blindtext}
+\usepackage{hyperref}
+\bibliographystyle{unsrt}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=MidnightBlue,
+    filecolor=Periwinkle,      
+    urlcolor=Skyblue,
+    pdftitle={Overleaf Example},
+    pdfpagemode=FullScreen,
+    }
+\urlstyle{same}
+
+
+
+
+\title{\bfseries{Seminario De Geometr\'ia de la Informaci\'on}}
+\author{Notas editadas por Aura De la Garza Garc\'ia}
+\titlepic{\includegraphics[width=15cm]{LogoUNAM_IIMAS_Color.png}}
+\date{}
+
+\newtheorem{theorem}{Teorema}[section]
+\newtheorem{corollary}{Corolario}[theorem]
+\newtheorem{lemma}[theorem]{Lema}
+\theoremstyle{definition}
+\newtheorem{definition}{Definici\'on}[section]
+\newtheorem{notation}{Notaci\'on}[section]
+\newtheorem{observation}{Observaci\'on}[section]
+\newtheorem{example}{Ejemplo}[section]
+\renewcommand\qedsymbol{$\blacksquare$}
+
+\usepackage{todonotes}
+
+\newcommand{\alescomment}[1]{\todo[color=red!40]{\small #1 \\ \scriptsize\hfill Ale}}
+
+
+\begin{document}
+\begin{titlepage} 
+	\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} 
+	
+	\center 
+	\textsc{\LARGE \textbf{Universidad Nacional Aut\'onoma de M\'exico}}\\[0.9cm] 
+	
+	\textsc{\Large Instituto de Investigaciones en Matemáticas Aplicadas y Sistemas}\\[0.5cm] 
+	
+	\textsc{\large Departamento de Matem\'aticas y Mec\'anica}\\[0.5cm] 
+	\HRule\\[0.4cm]
+	
+	{\huge\bfseries Seminario de Geometr\'ia\\
+ de la Informaci\'on 2023-2}\\[0.4cm] 
+	
+	\HRule\\[1cm]
+	
+	\begin{minipage}{0.4\textwidth}
+		\begin{flushleft}
+			\large
+			\textit{Profesores}\\
+			\textsc{Dr. Alessandro Bravetti\\
+   Dr. Mario D\'iaz} 
+		\end{flushleft}
+	\end{minipage}
+	~
+	\begin{minipage}{0.4\textwidth}
+		\begin{flushright}
+			\large
+			\textit{Asesor de Servicio Social}\\
+			\textsc{Dr. Alessandro Bravetti} 
+		\end{flushright}
+	\end{minipage}
+	
+    \begin{figure}[htp]
+    \centering
+    \includegraphics[width=9.2cm]{LogoUNAM_IIMAS_Color.png}
+    \end{figure}
+	
+	{\large \textit{Notas editadas por} \\ \textsc{Aura De la Garza Garc\'ia}}
+ 
+\end{titlepage}
+    \tableofcontents
+    \chapter*{Introducci\'on}
+    \input{capitulos/introduccion}
+    \part{$f$-Divergencias y sus Aplicaciones a la Privacidad}
+    \chapter{$f$-Divergencias y Contracci\'on}
+    \input{capitulos/capitulo1.tex}
+    \chapter{Privacidad Diferencial Local}
+    \input{capitulos/capitulo2.tex}
+    \chapter{Demostraci\'on de la Desigualdad\\ del Procesamiento de Informaci\'on}
+    \input{capitulos/capitulo3.tex}
+    \chapter{F\'ormulas Variacionales\\
+    para las Divergencias $TV$ y $KL$}
+    \input{capitulos/capitulo4.tex}
+    \chapter{Coeficientes de Contracci\'on}
+    \input{capitulos/capitulo5.tex}
+    \part{Geometr\'ia De La Informaci\'on}
+    \chapter{¿Qu\'e es la Geometr\'ia\\
+    de la Informaci\'on?}
+    \input{capitulos/capitulo6.tex}
+    \chapter{Introducci\'on a la\\
+    Geometr\'ia Diferencial}
+    \input{capitulos/capitulo7.tex}
+    \chapter{Geometr\'ia de la \\
+    Informaci\'on}
+    \input{capitulos/capitulo8.tex}
+\bibliography{bibliografia}
+\end{document}

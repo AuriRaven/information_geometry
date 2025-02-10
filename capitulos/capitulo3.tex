@@ -1,0 +1,243 @@
+\section{Recapitulaci\'on de
+Cap\'itulos Previos}
+
+\begin{notation}
+$\mathcal{P}(\mathcal{X})$ denota las distribuciones de probabilidad en un conjunto $\mathcal{X}$. Por ahora, solamente trabajaremos con distribuciones discretas, pero existe una forma de generalizar estos conceptos para distribuciones continuas.
+\end{notation}
+
+\begin{example}
+$\mathcal{X}=\{0,1\}$
+\begin{equation*}
+    \mathcal{P}(\mathcal{X})=\{\text{Ber}(p)\colon p\in[0,1]\},
+\end{equation*}
+donde $X\sim\text{Ber}(p)$,
+\begin{equation*}
+    \mathbb{P}(X=1)=p,\quad\mathbb{P}(X=0)=1-p=\bar{p}.
+\end{equation*}
+\end{example}
+
+\begin{definition}
+Sea $f\colon(0,\infty)\to\mathbb{R}$ una funci\'on convexa con $f(1)=0$. La \textit{\textbf{$f$-divergencia}} de $P$ respecto a $Q$ ($P,Q\in\mathcal{P}(\mathcal{X})$), se define como
+\begin{equation*}
+    D_f(P\|Q)=\sum_{x\in\mathcal{X}}f\left(\frac{P(x)}{Q(x)}\right)Q(x).
+\end{equation*}
+\end{definition}
+
+\begin{observation}
+Una idea intuitiva de la definici\'on anterior es medir qu\'e tan distintas son las distribuciones. 
+\end{observation}
+
+\begin{example}[\textbf{KL-Divergencia}]
+\begin{equation*}
+    f(t)=t\log(t).
+\end{equation*}
+\end{example}
+
+\begin{observation}
+    Si $X\sim Q$, entonces:
+    \begin{equation*}
+        D_f(P\|Q)=\mathbb{E}\left[f\left(\frac{P(x)}{Q(x)}\right)\right]
+    \end{equation*}
+    lo cual, es una forma alternativa de interpretar una $f$-Divergencia.
+\end{observation}
+
+\begin{example}
+Para la KL-Divergencia, tendremos que:
+\begin{align*}
+    D_{KL}(P\|Q)&=\sum_{x\in\mathcal{X}}\frac{P(x)}{Q(x)}\log\left(\frac{P(x)}{Q(x)}\right)Q(x)\\
+    &=\sum_{x\in\mathcal{X}}P(x)\log\left(\frac{P(x)}{Q(x)}\right).
+\end{align*}
+\end{example}
+\section{Propiedades de $f$-Divergencias}
+\begin{example}
+    Si $X_1$ y $X_2$ son independientes
+    \begin{align*}
+        P&=P_{X_1}(x_1)P_{X_2}(x_2)\\
+        Q&=Q_{X_1}(x_1)Q_{X_2}(x_2)
+    \end{align*}
+    entonces:
+    \begin{align*}
+        D_{KL}(P_{X_1}P_{X_2}\|Q_{X_1}Q_{X_2})&=\sum_{x_1}\sum_{x_2}P_{X_1}(x_1)P_{X_2}(x_2)\log\left(\frac{P_{x_1}(x_1)P_{X_2}(x_2)}{Q_{X_1}(x_1)Q_{X_2}(x_2)}\right)\\
+        &=\sum_{x_1}\sum_{x_2}P_{X_1}(x_1)P_{X_2}(x_2)\log\left(\frac{P_{X_1}(x_1)}{Q_{X_1}(x_1)}\right)\\
+        &\quad+\sum_{x_1}\sum_{x_2}P_{X_1}(x_1)P_{X_2}(x_2)\log\left(\frac{P_{X_2}(x_2)}{Q_{X_2}(x_2)}\right)\\
+        &=\sum_{x_1}P_{X_1}(x_1)\log\left(\frac{P_{X_1}(x_1)}{Q_{X_1}(x_1)}\right)\\
+        &\quad+\sum_{x_2}P_{X_2}(x_2)\log\left(\frac{P_{X_2}(x_2)}{Q_{X_2}(x_2)}\right)\\
+        &=D_{KL}(P_{X_1}\|Q_{X_1})+D_{KL}(P_{X_2}\|Q_{X_2}).
+    \end{align*}
+\end{example}
+
+\begin{theorem}[\textbf{Tensorizaci\'on}]
+Si $X_1,\dots,X_n$ son variables aleatorias independientes, entonces:
+\begin{equation*}
+    D_{KL}(P_{X_1}\cdots,P_{X_n}\|Q_{X_1},\cdots,Q_{X_n})=\sum_{i=1}^{n}D_{KL}(P_{X_i}\|Q_{X_i}).
+\end{equation*}
+\end{theorem}
+
+\begin{example}[\textbf{Variaci\'on Total}]
+ \begin{equation*}
+     f(t)=\frac{1}{2}|t-1|.
+ \end{equation*}
+Su $f$-divergencia estar\'a dada por:
+\begin{align*}
+    TV(P,Q)&=\sum_{x\in\mathcal{X}}\frac{1}{2}\bigg|\frac{P(X)}{Q(x)}-1\bigg|Q(x)\\
+    &=\frac{1}{2}\sum_{i=1}^{n}|P(x)-Q(x)|.
+\end{align*}
+\end{example}
+
+\begin{observation}[\textbf{Kernel de Markov}]
+\begin{equation*}
+    X\to\fbox{$K$}\to Y
+\end{equation*}
+\begin{equation*}
+    \underbrace{{K(y|x)}=\mathbb{P}(Y=y|X=x)=\mathbb{P}_{Y|X}(y|x)}_{\textrm{Matriz de Transici\'on (Cadenas de Markov)}}
+\end{equation*}
+\end{observation}
+
+\begin{notation}
+        \begin{align*}
+            P_{X}P_{Y|X}(x,y)&=P_{X}(x)P_{Y|X}(y|x)\\
+            &=\mathbb{P}(X=x,Y=y)
+        \end{align*}
+\end{notation}
+\begin{notation}
+        \begin{align*}
+            (P_{Y|X}P_{X})(y)=\sum_{x\in\mathcal{X}}P_{Y|X}(y|x)P_{X}(x)=\mathbb{P}(Y=y).
+        \end{align*}
+\end{notation}
+\section{$f$-Divergencia Condicional
+y Propiedades B\'asicas}
+\begin{definition}
+    Sean $P_{Y|X}$ y $Q_{Y|X}$ dos Kerneles. Su \textit{\textbf{$f$-divergencia condicional}} dada $P_{X}\in\mathcal{P}(\mathcal{X})$, se define:
+    \begin{equation*}
+        D_f(P_{Y|X}\|Q_{Y|X}|P_{X})
+    \end{equation*}
+\end{definition}
+\begin{observation}
+Observemos que de la definici\'on anterior, se sigue que:
+\begin{align*}
+    D_f(P_{Y|X}\|Q_{Y|X}|P_{X})&=\sum_{x\in\mathcal{X}}P_{X}(x)D_f\bigl(P_{Y|X}(\cdot|x)\big\|Q_{Y|X}(\cdot|x)\bigl)\\
+    &=\sum_{x\in\mathcal{X}}P_{X}(x)\sum_{y\in\mathcal{Y}}f\left(\frac{P_{Y|X}(y|x)}{Q_{Y|X}(y|x)}\right)Q_{Y|X}(y|x)\\
+    &=\sum_{x}\sum_{y}f\left(\frac{P_{Y|X}(y|x)}{Q_{Y|X}(y|x)}\right)P_X(x)Q_{Y|X}(y|x)\\
+    &=\sum_{x}\sum_{y}f\left(\frac{P_{Y|X}(y|x)}{Q_{Y|X}(y|x)}\cdot\frac{P_X(x)}{P_X(x)}\right)P_X(x)Q_{Y|X}(y|x)\\
+    &=D_f(P_XP_{Y|X}\|P_XQ_{Y|X}).
+\end{align*}
+Por lo tanto, la definici\'on anterior, nos dice que:
+\begin{equation*}
+    D_f(P_{Y|X}\|Q_{Y|X}|P_{X})=D_f(P_XP_{Y|X}\|P_XQ_{Y|X}).
+\end{equation*}
+\end{observation}
+\begin{theorem}[\textbf{Desigualdad de Jensen}]
+    Dada $Z$ una variable aleatoria y $f$ una funci\'on convexa, se cumple la siguiente desigualdad:
+    \begin{equation*}
+        \mathbb{E}\left[f(Z)\right]\geq f(\mathbb{E}(Z)).
+    \end{equation*}
+\end{theorem}
+
+\begin{theorem}
+    Sea $f\colon(0,\infty)\to\mathbb{R}$ una funci\'on convexa con $f(1)=0$, $P$ y $Q$ FDP. Entonces, se cumplen las siguientes propiedades:
+    \begin{enumerate}[label=(\alph*)]
+        \item $D_f(P\|Q)\geq0$,
+        \item Si $f$ es estrictamente convexa en 1, entones:
+        \begin{equation*}
+            D_f(P\|Q)=0\iff P=Q,
+        \end{equation*}
+        \item $(P,Q)\mapsto D_f(P\|Q)$ es convexa,
+        \item $D_f(P_{Y|X}P_X\|Q_{Y|X}P_X)\leq D_f(P_XP_{Y|X}\|P_XQ_{Y|X})$.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}[\textbf{Demostraci\'on}]
+\begin{enumerate}[label=(\alph*)]
+    \item Observemos que:
+    \begin{align*}
+        D_f(P\|Q)&=\sum_xf\left(\frac{P(x)}{Q(x)}\right)Q(x)\\
+        &\geq f\left(\sum_{x}\frac{P(x)}{Q(x)}\cdot Q(x)\right)\quad\text{Desigualdad de Jensen}\\
+        &=f(1)=0.
+    \end{align*}
+    \textit{Demostraci\'on Alternativa}: Sea $Z=\frac{P(x)}{Q(x)}$ con $X\sim Q$. Observemos que:
+    \begin{align*}
+        D_f(P\|Q)&=\mathbb{E}\left[f\left(\frac{P(x)}{Q(x)}\right)\right]\quad(X\sim Q)\\
+        &=\mathbb{E}[f(Z)]\\
+        &\geq f(\mathbb{E}(Z))\quad\text{(Desigualdad de Jensen)}
+    \end{align*}
+    Puesto que $\mathbb{E}[Z]=\sum_{x\in\mathcal{X}}\frac{P(x)}{Q(x)}$, donde $Q(x)=1$, entonces, concluimos que:
+    \begin{equation*}
+        D_f(P\|Q)\geq f(1)=0.
+    \end{equation*}
+    \item Basta con aplicar la condici\'on de igualdad para la Desigualdad de Jensen.
+    \item Definamos $g:(0,\infty)^2\to\mathbb{R}$ por
+    \begin{equation*}
+        g(p,q)=q\cdot f\left(\frac{p}{q}\right).
+    \end{equation*}
+    Observemos que:
+    \begin{equation*}
+        D_f(P\|Q)=\sum_{x\in\mathcal{X}}f\left(\frac{P(x)}{Q(x)}\right)Q(x)=\sum_{x\in\mathcal{X}}g(P(x),Q(x)).
+    \end{equation*}
+    Se puede demostrar que $g$ es convexa, \textit{i.e.} $\forall (p_1,q_1),(p_2,q_2)$ y $\lambda\in(0,1)$, se cumple que:
+    \begin{equation*}
+        g(\lambda p_1+\bar{\lambda}p_2,\lambda q_1+\bar{\lambda}q_2)\leq \lambda g(p_1,q_1)+\bar{\lambda}g(p_2,q_2).
+    \end{equation*}
+    Por lo tanto, para $\lambda\in[0,1]$
+    \begin{align*}
+        \lambda D_f(P_1\|Q_1)+\bar{\lambda}D_f(P_2\|Q_2)
+        &=\sum_{x}\Bigl\{\lambda g(P_1(x),Q_1(x))+\sum_{x}\bar{\lambda}g(P_2(x),Q_2(x))\Bigl\}\\
+        &=\sum_{x}g\left(\lambda P_1(x)+\bar{\lambda}P_2(x),\lambda Q_1(x)+\bar{\lambda}Q_2(x)\right)\\
+        &=D_f(\lambda P_1+\bar{\lambda}P_2\|\lambda Q_1+\bar{\lambda}Q_2)
+    \end{align*}
+    \item Observemos que 
+    \begin{align*}
+        D_f(P_XP_{Y|X}\|P_XQ_{Y|X})&=D_f(P_{Y|X}\|Q_{Y|X}|P_X)\\
+        &=\sum_{x\in\mathcal{X}}P_X(x)D_f\left(P_{Y|X}(\cdot|x)\|Q_{Y|X}(\cdot|x)\right)\\
+        &\quad\text{(por (c): Convexidad )}\\
+        &\geq D_f\left(\sum_xP_{Y|X}(\cdot|x)P_X(x)\Bigg\|\sum_xQ_{Y|X}(\cdot|x)P_X(x)\right)\\
+        &=D_f(P_{Y|X}P_X\|Q_{Y|X}P_X)
+    \end{align*}
+\end{enumerate}
+\end{proof}
+
+\section{Demostraci\'on de la Desigualdad del\\
+Procesamiento de Informaci\'on (DPI)}
+
+\noindent Finalmente, con todas las herramientas que hemos desarrollado, daremos una demostraci\'on de la Desigualdad del Procesamiento de la Informaci\'on
+
+\begin{theorem}[\textbf{Desigualdad del Procesamiento de Informaci\'on}]
+Si $P_{Y|X}$ es un Kernel, entonces
+\begin{equation*}
+    D_f(P_{Y|X}P_X\|P_{Y|X}Q_{X})\leq D_f(P_X\|Q_X).
+\end{equation*}
+Suponiendo que $K=P_{Y|X}$ tal que:
+\begin{align*}
+    P_X&\to\fbox{$K$}\to P_Y\\
+    Q_X&\to\fbox{$K$}\to Q_Y
+\end{align*}
+la desigualdad se reduce a lo siguiente:
+\begin{equation*}
+    D_f(P_Y\|Q_Y)\leq D_f(P_X\|Q_X)
+\end{equation*}
+\end{theorem}
+\begin{proof}[\textbf{Demostraci\'on}]
+Observemos que
+\begin{align*}
+    D_f(P_X\|Q_X)&=\sum_{x}f\left(\frac{P_X(x)}{Q_X(x)}\right)Q_X(x)\\
+    &=\sum_x\sum_y f\left(\frac{P_X(x)}{Q_X(x)}\right)Q_X(x)P_{Y|X}(y|x)\\
+    &=\sum_x\sum_y f\left(\frac{P_X(x)P_{Y|X}(y|x)}{Q_X(x)P_{Y|X}(y|x)}\right)Q_X(x)P_{Y|X}(y|x).
+\end{align*}
+Observemos que
+\begin{align*}
+    Q_Y(x)P_{Y|X}(y|x)&=Q_{X,Y}(x,y)\\
+    &=Q_Y(y)Q_{X|Y}(x|y)
+\end{align*}
+puesto que
+\begin{equation*}
+    Q_{X|Y}(x,y)=\frac{Q_{X,Y}(x,y)}{Q_Y(y)}
+\end{equation*}
+Por lo tanto,
+\begin{align*}
+    D_f(P\|Q)&=\sum_x\sum_y f\left(\frac{P_{X,Y}(x,y)}{Q_{X,Y}(x,y)}\right)Q_Y(y)Q_{X|Y}(x|y)\\
+    &=\sum_y Q_Y(y)\sum_x f\left(\frac{P_{X,Y}(x,y)}{Q_{X,Y}(x,y)}\right)Q_{X|Y}(x|y)\\
+    &\geq\sum_y Q_Y(y) f\left(\sum_{x}\frac{P_{X,Y}(x,y)}{Q_{X,Y}(x,y)}\cdot\frac{Q_{X,Y}(x,y)}{Q_Y(y)}\right)\\
+    &=\sum_y Q_Y(y) f\left(\frac{P_Y(y)}{Q_Y(y)}\right)\\
+    &=D_f(P_Y\|Q_Y).
+\end{align*}
+\end{proof}
+
+Observemos que, este teorema nos dice que, estad\'isticamente, el post-procesamiento de informaci\'on no puede incrementar nuestra informaci\'on inicial. Este es un teorema que tiene muchas implicaciones dentro de la Teor\'ia de la Informaci\'on.

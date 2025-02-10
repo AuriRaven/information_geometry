@@ -1,0 +1,206 @@
+\section{Grandes Vol\'umenes de Datos,\\ Grandes Esc\'andalos}
+
+\begin{itemize}
+    \item Ignorar la privacidad puede ser problem\'atico.
+    \item Distintos escenarios, distintos significados precisos.  
+\end{itemize}
+
+\section{Privacidad en Encuestas}
+
+\subsection{Mecanismo de Respuesta Aleatoria}
+\begin{enumerate}
+    \item Arroje una moneda.
+    \item Si se obtiene "\'Aguila" (A), responda honestamente.
+    \item Si se obtiene "Sol" (S), entonces arroje la moneda y responda:
+    \begin{center}
+        \text{"S\'i" si se obtiene Aguila, "No" si se obtiene Sol.}
+    \end{center}
+\end{enumerate}
+
+\begin{definition}\cite{warner1965randomized}
+Para $\varepsilon\geq0$, el \textit{\textbf{mecanismo de respuesta aleatoria}} se define como 
+\begin{equation*}
+    K(\cdot|0)=\text{Ber}(1-p_\varepsilon)\quad\&\quad K(\cdot|1)=\text{Ber}(p_\varepsilon),
+\end{equation*}
+donde $p_\varepsilon=e^\varepsilon/(1+e^{\varepsilon})$.
+\end{definition}
+
+\section{Privacidad Diferencial Local}
+
+\begin{notation}\cite{evfimievski2003limiting}
+Recordemos que $K(A|x)=\mathbb{P}(Y\in A|X=x)$ donde 
+\begin{equation*}
+    X\rightarrow\fbox{\quad$K$\quad}\rightarrow Y.
+\end{equation*}
+\end{notation}
+
+\begin{definition}\cite{evfimievski2003limiting}
+    Sea $\varepsilon\geq0$ y $\delta\in[0,1]$. Un kernel $K$ es \textit{\textbf{$(\varepsilon,\delta)$-PDL}} (Privacidad Diferencial Local) si para toda $x_1,x_2\in\mathcal{X}$ y $A\subset\mathcal{Y}$,
+    \begin{equation*}
+        K(A|x_1)\leq e^\varepsilon K(A|x_2)+\delta.
+    \end{equation*}
+\end{definition}
+
+\begin{itemize}
+    \item Para pequeñas $\varepsilon$ y $\delta\in[0,1]$, 
+    \begin{equation*}
+        |K(y|x_1)-K(y|x_2)|\lesssim\varepsilon+\delta.
+    \end{equation*}
+    \item La verosimilitud de $y$ dado $x$ no depende mucho de $x$. 
+\end{itemize}
+
+\begin{example}\cite{evfimievski2003limiting}
+El mecanismo de respuesta aleatoria es $(\varepsilon,0)$-PDL.
+\end{example}
+
+\section{Tres Problemas Arquet\'ipicos\\ en An\'alisis de Privacidad}
+
+\begin{itemize}
+    \item Entender privacidad desde una persectiva "fundamental". 
+    \item Evaluar el costo de privacidad en aplicaciones estad\'isticas espec\'ificas.
+    \item Calcular/Estimar los par\'ametros de privacidad de mecanismos espec\'ificos. 
+\end{itemize}
+
+\section{PDL como Contracci\'on\\ de la HS-Divergencia}
+
+\begin{observation}\cite{asoodeh2020contraction} Seg\'un lo que definimos en el cap\'itulo anterior, tenemos que:
+\begin{itemize}
+    \item Representaci\'on de la HS-Divergencia:
+    \begin{equation*}
+        E_\gamma(P\|Q)=\sup_{A\subset\mathcal{X}}[P(A)-\gamma Q(A)].
+    \end{equation*}
+    \item F\'ormula Generalizada de Dobrushin:
+    \begin{equation*}
+        \eta_\gamma(K)=\sup_{x_1,x_2\in\mathcal{X}}E_\gamma(K(\cdot|x_1)\|K(\cdot|x_2)).
+    \end{equation*}
+\end{itemize}
+\end{observation}
+
+\begin{theorem}\cite{asoodeh2020contraction}
+Un mecanismo de privacidad $K$ es $(\varepsilon,\delta)$-PDL si y solo si
+\begin{equation*}
+    \eta_{e^{\varepsilon}}(K)\leq\delta.
+\end{equation*}
+\end{theorem}
+\begin{proof}[\textbf{Demostraci\'on}]
+\begin{align*}
+    \text{$K$ es $(\varepsilon,\delta)$-PDL}&\iff\sup_{x_1,x_2\in\mathcal{X}}\sup_{A\subset\mathcal{Y}}\left[K(A|x_1)-e^\varepsilon K(A|x_2)\right]\leq\delta\\
+    &\iff\sup_{x_1,x_2\in\mathcal{X}}E_{e^\varepsilon}(K(\cdot|x_1)\|K(\cdot|x_2))\leq\delta\\
+    &\iff\eta_{e^\varepsilon}(K)\leq\delta.
+\end{align*}
+\end{proof}
+
+\begin{theorem}[\textbf{Duchi et al. '13}]\cite{asoodeh2020contraction}
+Si $K$ es $(\varepsilon,0)$-PDL, entonces
+\begin{equation*}
+    D_{KL}(KP\|KQ)\leq2(e^\varepsilon-1)^2\|P-Q\|_{TV}.
+\end{equation*}
+\end{theorem}
+
+\begin{center}
+    \textit{"Nuestra t\'ecnica principal...muestra que,\\ aplicando esquemas de muestreo de privacidad diferencial\\
+    actua escencialmente como contracci\'on de distribuciones."}
+\end{center}
+
+\section{Prueba de Hip\'otesis (Binaria)}
+\noindent\textbf{Meta.} De una muestra de $X$ elija entre
+\begin{align*}
+    &\text{Hip\'otesis Nula}        &H_0: X\sim P.\\
+    &\text{Hip\'otesis Alternativa} &H_1:X\sim Q.
+\end{align*}
+
+\noindent\textbf{Prueba.} Funci\'on aleatoria $\Psi\colon\mathcal{X}\to\{0,1\}$
+\begin{itemize}
+    \item Taza Negativa Verdadera
+    \begin{equation*}
+        \alpha(\Psi):=\mathbb{P}(\Psi(X)=0|H_0).
+    \end{equation*}
+    \item Taza Negativa Falsa
+    \begin{equation*}
+        \beta(\Psi):=\mathbb{P}(\Psi(X)=0|H_1).
+    \end{equation*}
+\end{itemize}
+
+\begin{observation}\cite{polyanskiy2014lecture}
+    $\beta_\alpha(P,Q):=\displaystyle{\inf_{\Psi\colon\alpha(\psi)\geq\alpha}\beta(\Psi)}$.
+\end{observation}
+
+\section{El costo de PDL en la\\
+Prueba de Hip\'otesis Binaria}
+\begin{notation}\cite{polyanskiy2014lecture,asoodeh2020contraction}
+    Sea $P^{\otimes n}$ la distribuci\'on de 
+    \begin{equation*}
+        X_1,X_2,\dots,X_n\overset{iid}{\sim}P.
+    \end{equation*}
+\end{notation}
+
+\begin{lemma}[\textbf{Stein}]\cite{polyanskiy2014lecture,asoodeh2020contraction}
+Si $\alpha\in(0,1)$, entonces
+\begin{equation*}
+    \varliminf _{n\rightarrow \infty }\frac{1}{n}\log\left(\frac{1}{\beta_\alpha(P^{\otimes n},Q^{\otimes n})}\right)=D_{KL}(P\|Q).
+\end{equation*}
+\end{lemma}
+\begin{observation}\cite{polyanskiy2014lecture,asoodeh2020contraction}
+Recordemos los siguientes puntos
+    \begin{enumerate}[label=(\alph*)]
+        \item Bajo $(\varepsilon,\delta)$-PDL: $P\to KP$, $Q\to KQ$ \&
+        \begin{equation*}
+            D_{KL}(KP\|KQ)\leq\eta_{KL}(K)D_{KL}(P\|Q).
+        \end{equation*}
+        \item Por la relaci\'on entre $\eta_f$ y $\eta_\gamma$,
+        \begin{equation*}
+            \eta_{KL}(K)\leq1-\frac{1-\eta_{e^{\varepsilon}}(K)}{e^{\varepsilon}}.
+        \end{equation*}
+        \item Dado que $K$ es $(\varepsilon,\delta)$-PDL $\iff$ $\eta_{e^{\varepsilon}}(K)\leq\delta$,
+        \begin{equation*}
+            \eta_{KL}(K)\leq1-\frac{1-\delta}{e^\varepsilon}.
+        \end{equation*}
+    \end{enumerate}
+\end{observation}
+
+\begin{theorem}\cite{polyanskiy2014lecture,asoodeh2020contraction}
+    Si $K$ es $(\varepsilon,\delta)$-PDL, entonces
+    \begin{equation*}
+        \varliminf_{n\to\infty}\frac{1}{n}\log\left(\frac{1}{\beta_\alpha(KP^{\otimes n},KQ^{\otimes n})}\right)\leq\left(1-\frac{1-\delta}{e^\varepsilon}\right)D_{KL}(P\|Q).
+    \end{equation*}
+\end{theorem}
+\section{Privacidad Diferencial (PD)\\
+bajo Composici\'on:\\
+Algoritmos Iterativos}
+
+\begin{equation*}
+    \mu_0\sim W_0\to\fbox{\fbox{$K_1$}$\to$\fbox{$K_2$}$\to\cdots\to$\fbox{$K_n$}}\to W_n\sim\mu_n
+\end{equation*}
+
+\begin{itemize}
+    \item PD para algoritmos iterativos:
+    \begin{equation*}
+        \sum_{\mu_0,\mu_0'\in\mathcal{P}(\mathcal{X})}E_{\gamma}(\mu_n\|\mu_n')\leq\delta\quad\text{con}\quad\gamma=e^\varepsilon.
+    \end{equation*}
+    \item Filosof\'ia de Contracci\'on:
+    \begin{equation*}
+        E_\gamma(\mu_n\|\mu_n')\leq\eta_{E_\gamma}(K_n)\cdot\eta_{E_\gamma}(K_1).
+    \end{equation*}
+\end{itemize}
+
+\begin{example}[\textbf{Descenso del Gradiente Estoc\'astico}]
+\begin{equation*}
+    W_{t+1}=W_t-\eta\nabla f_t(W_t)+\sigma Z_{t+1}
+\end{equation*}
+\begin{itemize}
+    \item $\eta,\sigma>0$,
+    \item $t_1,\dots,t_n$ "Funciones de P\'erdida",
+    \item $Z_1,\dots,Z_n$ \textit{i.i.d.} normales.
+\end{itemize}
+\end{example}
+
+\section{\'Ultimas Observaciones}
+
+Seg\'un la teor\'ia que hemos desarrollado, podemos decir que los problemas arquet\'ipicos en el an\'alisis de privacidad, ahora son los siguientes:
+
+\begin{itemize}
+    \item Entender privacidad desde una persectiva "fundamental". 
+    \item Evaluar el costo de privacidad en aplicaciones estad\'isticas espec\'ificas.
+    \item Calcular/Estimar los par\'ametros de privacidad de mecanismos espec\'ificos. 
+    \item Proporcionar evidencia estadistica de implementaci\'on incorrecta. 
+\end{itemize}

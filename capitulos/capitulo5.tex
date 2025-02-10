@@ -1,0 +1,206 @@
+\section{Definici\'on y Ejemplos}
+\begin{definition}
+Sea $f$ una funci\'on convexa con $f(1)=0$. Para un kernel $K\colon\mathcal{X}\to\mathcal{P}(\mathcal{Y})$, \textit{i.e.},
+\begin{align*}
+    K(y|x)=&\mathbb{P}(Y=y|X=x)\\
+    X\to&\fbox{$K$}\to Y\,,
+\end{align*}
+su \textit{\textbf{coeficiente de contracci\'on}} se define como 
+\begin{equation*}
+    \eta_f(K)=\sup_{P,Q:\,0<D_f(P\|Q)<\infty}\frac{D_f(KP\|KQ)}{D_f(P\|Q)}
+\end{equation*}
+\end{definition}
+
+\begin{observation}
+\begin{itemize}
+    \item DPI: $D_f(KP\|KQ)\leq D_f(P\|Q)$ $\Longrightarrow$ $\eta_f(K)\leq1$.
+    \item Alternativamente:
+    \begin{equation*}
+        \eta_f(K)=\min\{\eta\geq0\colon D_f(KP\|KQ)\leq\eta D_f(P\|Q),\hspace{3mm}\forall P,Q\}.
+    \end{equation*}
+\end{itemize}
+\end{observation}
+
+\begin{example}[Canal sim\'etrico binario]
+$K_{\alpha}=BSC(\alpha)$. Recordemos que 
+\begin{equation*}
+    K_{\alpha}\text{Ber}(p)=\text{Ber}\Bigl(p(1-\alpha)+(1-p)\alpha\Bigl).
+\end{equation*}
+Es posible mostrar que
+\begin{equation*}
+    TV\Bigl(\text{Ber}(p),\text{Ber}(q)\Bigl)=|p-q|.
+\end{equation*}
+Observemos que 
+\begin{align*}
+    \eta_{TV}(K_\alpha)&=\sup_{P\neq Q}\frac{TV(K_\alpha P,K_\alpha Q)}{TV(P,Q)}\\
+    &=\sup_{\overset{p,q\in[0,1]}{p\neq q}}\frac{TV(K_\alpha\text{Ber}(p),K_\alpha\text{Ber}(q))}{TV(\text{Ber}(p),\text{Ber}(q))}\\
+    &=\sup_{\overset{p,q\in[0,1]}{p\neq q}}\frac{|p(1-\alpha)+(1-p)\alpha-(q(1-\alpha)+(1-q)\alpha)|}{|p-q|}\\
+    &=\sup_{\overset{p,q\in[0,1]}{p\neq q}}\frac{|1-2\alpha||p-q|}{|p-q|}=|1-2\alpha|.
+\end{align*}
+\end{example}
+
+\begin{example}
+    $\eta_{KL}(K_\alpha)=(1-2\alpha)^2$.
+\end{example}
+
+\section{F\'ormula de Dobrushin}
+
+\begin{itemize}
+    \item El siguiente teorema fue demostrado a finales de la d\'ecada de los sesenta.
+    \item Como notaci\'on, tendremos que:
+    \begin{equation*}
+        TV(K(\cdot|x)\| K(\cdot|x'))=\frac{TV(K\delta_x\|K\delta_{x'})}{TV(\delta_x\|\delta_{x'})}
+    \end{equation*}
+    donde $\delta_x$ se le conoce como la \textit{\textbf{medida de Dirac}} en $\mathcal{X}$.
+\end{itemize}
+
+\begin{theorem}[\textbf{F\'ormula de Dobrushin}]
+Si $K\colon\mathcal{X}\to\mathcal{P}(\mathcal{Y})$ es un kernel, entonces 
+\begin{equation*}
+    \eta_{TV}(K)=\sup_{x,x'\in\mathcal{X}}TV(K(\cdot|x)\|K(\cdot|x')).
+\end{equation*}
+\end{theorem}
+\begin{proof}[\textbf{Demostraci\'on}]
+Observemos que
+\begin{align*}
+    TV(K(\cdot|x)\|K(\cdot|x'))&=\frac{TV(K\delta_x\|K\delta_{x'})}{TV(\delta_x,\delta_{x'})}\\
+    &\leq \sup_{P\neq Q}\frac{TV(KP\|KQ)}{TV(P\|Q)}=\eta_{TV}(K).
+\end{align*}
+Sea $P\neq Q$. Definamos $A=\{x\in\mathcal{X}\colon P(x)\geq Q(x)\}$. Para $B\subset\mathcal{Y}$, tenemos 
+\begin{align*}
+    KP(B)-KQ(B)&=\sum_{x\in\mathcal{X}}P(x)K(B|x)-\sum_{x\in\mathcal{X}}Q(x)K(B|x)\\
+    &=\sum_{x\in\mathcal{X}}\Bigl(P(x)-Q(x)\Bigl)K(B|x)\\
+    &=\sum_{x\in A}\Bigl(P(x)-Q(x)\Bigl)K(B|x)-\sum_{x'\in A^c}\Bigl(Q(x)-P(x)\Bigl)K(B|x').
+\end{align*}
+Recordemos que 
+\begin{equation*}
+    TV(P,Q)=P(A)-Q(A)=Q(A^c)-P(A^c).
+\end{equation*}
+Por lo tanto,
+\begin{align*}
+    &KP(B)-KQ(B)\\
+    &=TV(P,Q)\Bigg\{\sum_{x\in A}\frac{P(x)-Q(x)}{P(A)-Q(A)}K(B|x)-\sum_{x'\in A^c}\frac{Q(x')-P(x')}{Q(A^c)-P(A^c)}K(B|x')\Bigg\}
+\end{align*}
+Las funciones 
+\begin{align*}
+    U(x)&=\frac{P(x)-Q(x)}{P(A)-Q(A)}\mathds{1}_{x\in A}\\
+    V(x')&=\frac{Q(x')-P(x')}{Q(A^c)-P(A^c)}\mathds{1}_{x\in A^c}
+\end{align*}
+determinan dos distribuciones de probabilidad. Por lo tanto
+\begin{align*}
+    &KP(B)-KQ(B)\\
+    &=TV(P,Q)\left(\sum_{x\in\mathcal{X}}U(x)K(B|x)-\sum_{x'\in\mathcal{X}}V(x')K(B|x')\right)\\
+    &=TV(P,Q)\left(\sum_{x,x'}U(x)V(x')K(B|x)-\sum_{x,x'}U(x)V(x')K(B|x')\right)\\
+    &=T(P,Q)\sum_{x,x'}U(x)V(x')\Big[K(B|x)-K(B|x')\Big]\\
+    &\leq T(P,Q)\sum_{x,x'}U(x)V(x')TV\Bigl(K(\cdot|x),K(\cdot|x')\Bigl)\\
+    &\leq T(P,Q)\sup_{x,x'}TV\Bigl(K(\cdot|x),K(\cdot|x')\Bigl)\sum_{x,x'}U(x)V(x').
+\end{align*}
+Concluimos que 
+\begin{align*}
+    KP(B)-KQ(B)&\leq TV(P,Q)\sup_{x,x'}TV\Bigl(K(\cdot|x),K(\cdot|x')\Bigl)\\
+    \Longrightarrow TV(KP,KQ)&\leq TV(P,Q)\sup_{x,x'}TV\Bigl(K(\cdot|x),K(\cdot|x')\Bigl).
+\end{align*}
+La minimalidad de $\eta_{TV}(K)$ implica que 
+\begin{equation*}
+    \eta_{TV}(K)\leq\sup_{x,x'}TV(K(\cdot|x),K(\cdot|x')).
+\end{equation*}
+\end{proof}
+
+\section{Divergencia Hockey-Stick ($E_\gamma$)}
+
+\begin{definition}
+    Para $\gamma\in(0,\infty)\backslash\{1\}$, definimos
+    \begin{equation*}
+        f_\gamma(t)=\begin{cases}
+        (\gamma-t)_+&\quad\gamma<1\\
+        (t-\gamma)_+&\quad\gamma>1
+        \end{cases}
+    \end{equation*}
+    donde $(x)_+=\max\{0,x\}$. Se define la \textbf{\textit{$E_\gamma$-divergencia}}
+    \begin{equation*}
+        E_\gamma(P\|Q)=D_{f_\gamma}(P\|Q).
+    \end{equation*}
+\end{definition}
+
+\begin{theorem}
+Dada la definici\'on anterior, se cumplen los siguientes incisos: 
+\begin{enumerate}[label=(\alph*)]
+    \item $\lim_{\gamma\to1}E_\gamma(P\|Q)=TV(P,Q)$,
+    \item $\gamma\mapsto E_\gamma(P\|Q)$ es creciente en $(0,1)$ y decreciente en $(1,\infty)$,
+    \item 
+    \begin{equation*}
+        E_\gamma(P\|Q)=\begin{cases}
+        \sup_{E\subseteq\mathcal{X}}\gamma Q(E)-P(E)&\quad\gamma<1\\
+        \sup_{E\subseteq\mathcal{X}}P(E)-\gamma Q(E)&\quad\gamma>1,
+        \end{cases}
+    \end{equation*}
+    \item $\eta_\gamma(K)=\sup_{x,x'}E_\gamma(K(\cdot|x)\|K(\cdot|x'))$.
+\end{enumerate}    
+\end{theorem}
+
+\begin{corollary}
+\begin{align*}
+    \eta_\gamma(K)&=\sup_{x,x'}E_\gamma(K(\cdot|x)\|K(\cdot|x'))\\
+    &\leq\sup_{x,x'}TV(K(\cdot|x),K(\cdot|x'))=\eta_{TV}(K).
+\end{align*}
+\end{corollary}
+
+\begin{theorem}
+Si $f\colon(0,\infty)\to\mathbb{R}$ es dos veces diferenciable y convexa, entonces
+\begin{equation*}
+    f(t)=\begin{cases}
+    f(1)+f'(1)(t-1)+\int_0^1(\gamma-t)_+f''(\gamma)d\gamma,&\quad t<1\\
+    f(1)+f'(1)(t-1)+\int_1^\infty(t-\gamma)_+f''(\gamma)d\gamma,&\quad t>1
+    \end{cases}
+\end{equation*}
+\end{theorem}
+
+\begin{theorem}
+Si $f\colon(0,\infty)\to\mathbb{R}$ es una funci\'on convexa dos veces diferenciable, entonces
+\begin{equation*}
+    D_f(P\|Q)=\int_0^\infty E_\gamma(P\|Q)f''(\gamma)d\gamma.
+\end{equation*}
+\end{theorem}
+
+\begin{corollary}
+\begin{align*}
+    D_f(KP\|KQ)&=\int_0^\infty E_\gamma(KP\|KQ)f''(\gamma)d\gamma\\
+    &\leq\int_0^\infty\eta_\gamma(K)E_\gamma(P\|Q)f''(\gamma)d\gamma\\
+    &\leq\eta_{TV}(K)\int_0^\infty E_\gamma(P\|Q)f''(\gamma)d\gamma\\
+    &=\eta_{TV}(K)D_f(P\|Q)\\
+    \Longrightarrow&\eta_f(K)\leq\eta_{TV}(K).
+\end{align*}    
+\end{corollary}
+
+\begin{notation}[\textbf{Divergencia $\chi^2$}]
+\begin{equation*}
+    f(t)=(t-1)^2.
+\end{equation*} 
+Calculando, su divergencia estar\'a dada por
+\begin{align*}
+    \chi^2(P,Q)&=\sum_{x\in\mathcal{X}}\left(\frac{P(x)}{Q(x)}-1\right)^2Q(x)\\
+    &=\sum_{x\in\mathcal{X}}\frac{(P(x)-Q(x))^2}{Q(x)}.
+\end{align*}
+\end{notation}
+
+\begin{observation}
+ Como comentario, podemos mencionar que
+ \begin{equation*}
+     \eta_{\chi^2}(K)=\sup_{f,g}\rho(f(X),f(Y))
+ \end{equation*}
+ con $\rho(X,Y)=\frac{\text{Cov}(X,Y)}{\sqrt{\text{Var}(X)\text{Var}(Y)}}$ y $X\to\fbox{$K$}\to Y$. Esta divergencia obtuvo su nombre debido a su relaci\'on con la prueba de independencia $\chi^2$ de Pearson
+ \begin{equation*}
+     T=\sum_{x,y}\frac{(P_{X,Y}(x,y)-P_X(x)P_Y(y))}{P_X(x)P_Y(y)}.
+ \end{equation*}
+\end{observation}
+
+\begin{theorem}
+Para la divergencia $\chi^2$ se cumplen los siguientes incisos:
+\begin{enumerate}[label=(\alph*)]
+    \item Bajo algunas condiciones sobre $f$,
+    \begin{equation*}
+        \eta_{\chi^2}(K)\leq\eta_{f}(K)
+    \end{equation*}
+    \item $\eta_{\chi^2}=\eta_{KL}$.
+\end{enumerate}
+\end{theorem}

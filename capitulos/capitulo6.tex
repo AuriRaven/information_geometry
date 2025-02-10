@@ -1,0 +1,253 @@
+\section*{Respuestas:}
+
+\begin{itemize}
+    \item \textbf{En Libros:}
+    \begin{itemize}
+        \item \textit{Shun-ichi Amari. Information Geometry and Its Applications~\cite{amari2016information}:} Se estudia la Geometr\'ia de la Informaci\'on desde sus aplicaciones al aprendizaje de m\'aquinas, procesamiento de señal, optimizaci\'on, entre otras. 
+        \item \textit{Ovidiu Calin - Constantin Udrişte. Geometric Modeling in Probability and Statistics~\cite{calin2014geometric}}: Introduce la Geometr\'ia de la Informaci\'on desde la Geometr\'ia Riemanniana Finito dimensional. 
+        \item \textit{Ay, Jürgen Jost, Hông Vân Lê, Lorenz Schwachhöfer. Information Geometry}~\cite{ay2017information}: Incluye un panorama introductorio a la Geometr\'ia de la Informaci\'on desde la teor\'ia de la medida, Geometr\'ia Riemanniana $\infty$-dimensional y la teor\'ia de espacios de Banach. 
+        \item \textit{Nielsen, F. (2020). An elementary introduction to information geometry~\cite{nielsen2020elementary}}: 
+        Art\'iculo de revisi\'on que provee un panorama general sobre la teor\'ia y las aplicaciones de la geometr\'ia de la informaci\'on seg\'un el enfoque de Amari.
+%        A partir de resultados importantes, como lo es el teorema fundamental de la geometr\'ia de la informaci\'on y estructuras fundamentales en la geometr\'ia diferencial, este art\'iculo de revisi\'on describe qu\'e es una variedad estad\'istica.
+    \end{itemize}
+    \item \textbf{Nuestras Respuestas:}
+    \begin{itemize}
+        \item An\'alisis Topol\'ogico de Datos (T.D.A.)
+        \item Principios Variacionales
+        \item Funciones de Divergencia 
+    \end{itemize}
+    \item \textbf{Otras Respuestas:} Transporte \'Optimo. Este tema se complementa con la perspectiva de los dos primeros libros mencionados anteriormente. 
+    \item \textbf{Respuestas Para Este Curso:} 
+    \begin{enumerate}[label=(\alph*)]
+        \item Generalizaci\'on de la Geometr\'ia Riemanniana
+        \item Aplicaciones:
+        \begin{itemize}
+            \item Divergencias en T.D.A.
+            \item Principio de M\'axima Entrop\'ia en Termpdin\'amica (Induce a la Geometr\'ia Dual)
+            \item $f$-Divergencias + D.P.I. tienen como consecuencia el Teorema de Chentsov
+        \end{itemize}
+    \end{enumerate}
+\end{itemize}
+
+\section{Motivaci\'on}
+
+\subsection{Repaso de Estad\'istica}
+
+\noindent\underline{\textit{Nota}}: En esta secci\'on, trabajaremos a partir de la Inferencia Estad\'istica desde un paradigma "Frecuentista". 
+
+
+\subsection*{Problema:}
+
+\noindent Dada una serie de observaciones de un fen\'omeno que se supone generado por alguna ley de probabilidad, buscamos reconstruir la ley de probabilidad. \\
+
+\noindent\underline{\textit{M\'as especificamente}}: Supongamos que la ley de probabilidad pertenece a una familia parametrizada de distribuci\'ones 
+de probabilidad
+\begin{align*}
+    p(x;\theta),\quad&x\in\mathcal{X}\subseteq\mathbb{R}^l\\
+    &\theta\in\Theta\subseteq\mathbb{R}^d.
+\end{align*}
+
+El problema se reduce a:
+
+\begin{itemize}
+    \item Buscar $\theta^{*}$ tal que $p(x;\theta^*)$ es la ley que buscamos.
+    \item Buscar $\theta^{*}\in\Theta$ tal que $p(x;\theta^*)$ es la distribuci\'on que est\'e "m\'as cerca" de la que buscamos.
+\end{itemize}
+
+\begin{definition}
+Un \textit{\textbf{modelo estad\'istico}} es cuaquier familia de distribuciones parametrizadas 
+\begin{align*}
+    p(x;\theta),\quad&x\in\mathcal{X}\subseteq\mathbb{R}^l\\
+    &\theta\in\Theta\subseteq\mathbb{R}^d
+\end{align*}
+tal que todas las sumas integrales y/o intercambios de derivadas con integrales est\'en bien definidas.
+\end{definition}
+
+\begin{example}
+\begin{enumerate}[label=(\alph*)]
+    \item (\textbf{Gaussianas univariadas})
+    \begin{align*}
+        &p(x;\theta)=p(x;\mu,\sigma)=\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{1}{2}\frac{(x-\mu)^2}{\sigma^2}}\\
+        &\mathcal{X}=\mathbb{R},\quad\Theta:=\mathbb{R}\times\mathbb{R}_{+}
+    \end{align*}
+    \item (\textbf{Simplex}) $\mathcal{X}=\{x_1,\dots,x_n\}$
+    \begin{align*}
+        &p(x=x_i;\theta)=\theta^i\\
+        &\Theta=\Bigg\{\theta\in\mathbb{R}^n\colon\theta^i\geq0\text{ y }\sum_{i=1}^{n}\theta^i=1\Bigg\}.
+    \end{align*}
+\end{enumerate}
+\end{example}
+
+\subsection*{Soluci\'on:}
+\section{Estimadores M\'aximo Veros\'imiles}
+
+\noindent\underline{\textit{Idea}}: Supongamos que la ley de probabilidad de nuestro fen\'omeno que buscamos pertenezca a alg\'un modelo estad\'istico $p(x;\theta)$ y que tenemos $n$ observaciones
+\begin{equation*}
+    y=(y_1,\dots,y_n).
+\end{equation*}
+La idea es encontrar el $\theta^{*}\in\Theta$ que maximice la probabilidad de haber observado $y$. Para ello, introduciremos la siguiente definici\'on.
+
+\begin{definition}
+Un \textit{\textbf{estimador}} es una funci\'on
+\begin{equation*}
+    \hat{\theta}_n\colon\mathbb{R}^{n\times l}\to\Theta\subseteq\mathbb{R}^d
+\end{equation*}
+que toma la muestra y produce un estimado del par\'ametro. 
+\end{definition}
+
+\begin{definition}
+Definimos la \textit{\textbf{verosimilitud de la muestra}} (dentro del modelo $p(x;\theta)$) como la funci\'on
+\begin{equation*}
+    L_n(y;\theta):=p(y_1,\dots,y_n;\theta).
+\end{equation*}
+\end{definition}
+
+\begin{definition}
+El \textit{\textbf{estimador de m\'axima verosimilitud}} (M.L.E.) es la funci\'on 
+\begin{equation*}
+    \hat{\theta}_n^{MLE}(y)=\underset{\theta\in\Theta}{\text{arg}\max}L_n(y;\theta)
+\end{equation*}
+\end{definition}
+
+\begin{observation}
+En la pr\'actica, en lugar de usar $L_n(y;\theta)$ se usa la \textit{\textbf{log-verosimilitud}}.
+\begin{equation*}
+    \ell_n(y;\theta):=\log L_n(y;\theta)
+\end{equation*}
+\end{observation}
+
+\begin{definition}
+Dado un estimador $\hat{\theta}$ para un par\'ametro $\theta^*$, se define el \textit{\textbf{sesgo}} de $\hat{\theta}$ como
+\begin{equation*}
+    S(\hat{\theta}):=\underbrace{\mathbb{E}_{p(x;\theta)}[\hat{\theta}]}_{\psi(\theta)}-\theta^*.
+\end{equation*}
+$\hat{\theta}$ se dice \textit{\textbf{no sesgado}} si $S(\hat{\theta})=0$.
+\end{definition}
+
+\begin{definition}
+Definimos la \textit{\textbf{log-verosimilitud del modelo}} $p(x;\theta)$ como la funci\'on
+\begin{equation*}
+    \ell(x;\theta):=\log p(x;\theta).
+\end{equation*}
+Con ello, definimos la \textit{\textbf{informaci\'on de Fisher}} de $\theta$ como la matriz $d\times d$ dada por
+\begin{equation*}
+    \mathcal{I}_{i,j}(\theta):=\mathbb{E}_{p(x;\theta)}\left[\frac{\partial}{\partial \theta_i}\ell(x;\theta)\cdot\frac{\partial}{\partial\theta_j}\ell(x;\theta)\right]\geq0.
+\end{equation*}
+\end{definition}
+
+\begin{observation}
+Dado un modelo estad\'istico $p(x;\theta)$ queremos encontrar un estimador para $\theta$ a partir de la funci\'on de verosimilitud. 
+Para ello, es natural preguntarse c\'omo la verosimilitud (o la log-verosimilitud) depende de $\theta$.
+Una medida muy natural de esta variaci\'on es la siguiente 
+\begin{equation*}
+    \mathbb{E}_{p(x;\theta)}\left[\frac{\partial}{\partial \theta}\ell(x;\theta)\right]\,.
+\end{equation*}
+Pero, podemos notar que 
+\begin{equation*}
+    \mathbb{E}_{p(x;\theta)}\left[\frac{\partial}{\partial \theta}\ell(x;\theta)\right]=0\,.
+\end{equation*}
+Esto nos induce a pensar en el segundo momento de $\frac{\partial}{\partial\theta}\ell(x;\theta)$, lo cual 
+es precisamente la informaci\'on de Fisher. 
+\end{observation}
+
+\begin{theorem}[\textbf{Cota Inferior de Cramer y Rao (C.R.L.B)}]
+Los siguientes enunciados son ciertos:
+\begin{enumerate}[label=(\alph*)]
+    \item $[\theta\in\mathbb{R}]$: $\forall\hat{\theta}$ estimador de $\theta$ se tiene,
+    \begin{equation*}
+        \text{Var}\left(\hat{\theta}\right)\geq\left[\psi'(\theta)\right]^2\cdot\left[\mathcal{I}(\theta)\right]^{-1}.
+    \end{equation*}
+    \item $[\theta\in\mathbb{R}^d]$: $\forall\hat{\theta}$ estimador de $\theta$ se tiene,
+    \begin{equation*}
+        \text{Cov}\left(\hat{\theta}\right)\geq\left(\mathbf{J}\psi\right)\left[\mathcal{I}(\theta)\right]^{-1}\left(\mathbf{J}\psi\right)^T.
+    \end{equation*}
+\end{enumerate}
+\end{theorem}
+
+\begin{definition}
+Un estimador $\hat{\theta}$ tal que cumpla la igualdad en la f\'ormula de C.R.L.B. le llamamos 
+\textit{\textbf{eficiente}} o \textit{\textbf{Fisher-eficiente}}.    
+\end{definition}
+
+\begin{theorem}
+ Los siguientes enunciados son ciertos:
+ \begin{enumerate}[label=(\alph*)]
+     \item $\hat{\theta}_n^{MLE}$ es asint\'oticamente no sesgado.
+     \item $\hat{\theta}_n^{MLE}$ es asint\'oticamente eficiente.
+     \item $\hat{\theta}_n^{MLE}$ cumple asint\'oticamente que 
+     \begin{equation*}
+         \lim_{n\to\infty}\hat{\theta}_n^{MLE}=\underset{\theta\in\Theta}{\text{arg}\min}D_{KL}\Bigl(p(x;\theta^*)\Big\|p(x;\theta)\Bigl)
+     \end{equation*}
+ \end{enumerate}
+\end{theorem}
+
+\section{Motivaci\'on a Trav\'es de Preguntas}
+
+\begin{enumerate}
+    \item Dados los modelos:
+    \begin{enumerate}[label=(\alph*)]
+        \item $p(x;\theta)=p(x;\mu,\sigma)=\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{1}{2}\frac{(x-\mu)^2}{\sigma^2}},\quad x\in\mathbb{R}\text{ y }(\mu,\sigma)\in\mathbb{R}\times\mathbb{R}_+$
+        \item $p(x;\eta)=p(x;\rho,\tau)=\frac{\tau}{\sqrt{2\pi}}e^{-\frac{1}{2}(x\tau-\rho\tau+1)^2},\quad x\in\mathbb{R}\text{ y }(\rho,\tau)\in\mathbb{R}\times\mathbb{R}_+$\\
+        y con $\rho=\mu+\sigma$, $\tau=\frac{1}{\sigma}$.
+    \end{enumerate}
+    ¿Son Diferentes?\\
+    
+    \textbf{NO}: Queremos estudiar propiedades que no dependen de la parametrizaci\'on.
+    \item ¿Existe un concepto de \textit{"distancia"} dentro de $p(x;\theta)$?\\
+
+    \textbf{S\'I}: (Teorema de Fisher-Rao) Adem\'as es \'unica (Teorema de Chentsov).
+    \item Si tengo (a) y (b) y  quiero encontrar el $\hat{\theta}^{MLE}$ o $\hat{\eta}^{MLE}$ o equivalentemente, quiero encontrar 
+    \begin{equation*}
+        \min_{\theta\in\Theta}D_{KL}\Bigl(p(x;\theta^*)\Big\|p(x;\theta)\Bigl)
+    \end{equation*}
+    \'o
+    \begin{equation*}
+        \min_{\eta\in H}D_{KL}\Bigl(p(x;\eta^*)\Big\|p(x;\eta)\Bigl)
+    \end{equation*}
+    puedo hacer un \textit{\textbf{flujo gradiente}}:
+    \begin{enumerate}
+        \item[\textbf{(GA)}]: $\dot{\theta}=-\nabla_\theta D_{KL}(\theta)$ %-\nabla_\theta D_{KL}(\theta^*\|\theta)$
+        \item[\textbf{(GB)}]: $\dot{\eta}=-\nabla_\eta D_{KL}(\eta)$
+    \end{enumerate}
+    o bien, puedo hacer un \textit{\textbf{descenso del gradiente}}:
+    \begin{enumerate}
+        \item[\textbf{(GA)}]: $\theta_{k+1}=\theta_k-h\nabla_\theta D_{KL}(\theta_k)$
+        \item[\textbf{(GB)}]: $\eta_{k+1}=\eta_k-h\nabla_\eta D_{KL}(\eta_k)$
+    \end{enumerate}
+    ¿Si uso (\textbf{GA}) o (\textbf{GB}), obtengo lo mismo?\\
+
+    \textbf{NO}: Hay que hacerlo con el \textit{\textbf{gradiente natural riemanniano}}.
+    \item ¿Lo que obtenga con (\textbf{GA}) o con (\textbf{GB}) es correcto?\\
+    
+    (\textbf{GA}) y (\textbf{GB}) est\'an basados en que
+    \begin{equation}
+        -\frac{\nabla f}{\|\nabla f\|}=\underset{\|v\|=1}{\text{arg}\min}\,df(v)
+    \end{equation}
+    pero, si la variedad es riemanniana, entonces:
+    \begin{itemize}
+        \item $\nabla f$ no es un campo, pues habr\'ia que usar el gradiente riemanniano.
+        \item El gradiente natural es el que satiface (6.1)
+    \end{itemize}
+\end{enumerate}
+
+\section*{Conclusi\'on:} 
+\noindent Vamos a necesitar geometr\'ia diferencial, la cual, funcionar\'a como generalizaci\'on de:
+\begin{enumerate}
+    \item Geometr\'ia Euclideana
+    \item C\'alculo Diferencial
+\end{enumerate}
+
+\section*{Plan de Trabajo:}
+\begin{enumerate}
+    \item Introducir Geometr\'ia Diferencial.
+    \item Introducir Tensores (m\'etrica).
+    \item Probar que $\mathcal{I}_{i,j}$ define una m\'etrica riemanniana y que es \'unica.
+    \item Introducir conexiones y ver a la geometr\'ia de la informaci\'on como generalizaci\'on de la geometr\'ia riemanniana.
+    \item Aplicaciones:
+    \begin{itemize}
+        \item T.D.
+        \item Optimizaci\'on
+        \item Biolog\'ia Evolutiva
+        \item T.D.A.
+    \end{itemize}
+\end{enumerate}

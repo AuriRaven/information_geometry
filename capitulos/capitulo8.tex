@@ -1,0 +1,419 @@
+En este cap\'itulo, daremos una breve introducci\'on a la Geometr\'ia de la Informaci\'on a partir de los puntos que se mencionaron en el cap\'itulo 6:
+
+\begin{enumerate}[label=(\alph*)]
+        \item Generalizaci\'on de la Geometr\'ia Riemanniana
+        \item Aplicaciones:
+        \begin{itemize}
+            \item Divergencias en T.D.A.
+            \item Principio de M\'axima Entrop\'ia en Termodin\'amica (Induce a la Geometr\'ia Dual)
+            \item $f$-Divergencias + D.P.I. tienen como consecuencia el Teorema de Chentsov
+        \end{itemize}
+\end{enumerate}
+
+\section{M\'etrica en la\\
+Geometr\'ia de la Informaci\'on}
+\begin{theorem}
+Dado $p(x;\theta)$ modelo estad\'istico $x\in\mathcal{X}$ y $\theta\in\Theta$ tenemos que 
+\begin{equation*}
+    \mathcal{I}_{ij}(\theta)=\mathbb{E}_{p(x;\theta)}\left[\frac{\partial\ell}{\partial \theta^i}\cdot\frac{\partial\ell}{\partial\theta^j}\right],\quad\ell=\ln{p(x;\theta)}
+\end{equation*}
+define una m\'etrica riemanniana en $\Theta$ dada por
+\begin{equation*}
+    g^F(\theta):=\mathcal{I}_{ij}(\theta)d\theta^i\otimes d\theta^j
+\end{equation*}
+\end{theorem}
+
+\begin{proof}[\textbf{Demostraci\'on}]
+\begin{enumerate}
+    \item[(i)] $\mathcal{I}_{ij}(\theta)$ son las componentes de un tensor de tipo (0,2) porque
+    \begin{equation*}
+        g^F(\theta)=\mathbb{E}_{p(x;\theta)}\left[d\ell\otimes d\ell\right].
+    \end{equation*}
+    \item[(ii)] $\mathcal{I}_{ij}(\theta)\succeq0$ pues sabemos, por definici\'on, que es una matriz de covarianza.
+\end{enumerate}
+\end{proof}
+
+\begin{example}
+Con el teorema anterior, se pueden comprobar los siguientes resultados:
+\begin{enumerate}
+    \item[(1)] \textbf{Geometr\'ia Hiperb\'olica:} Sea $p(x;\theta)=\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x-\mu)^2}{\sigma^2}}$ con $\Theta=\mathbb{R}\times\mathbb{R}_+$ y $(\mu,\sigma)\in\Theta$. Se puede probar que esto nos lleva a un modelo estad\'istico para la geometr\'ia hiperb\'olica, pues
+    \begin{align*}
+    g_{11}^F(\mu,\sigma)&=\frac{1}{\sigma^2}\\
+    g_{12}^F(\mu,\sigma)&=0\\
+    g_{22}^F(\mu,\sigma)&=\frac{2}{\sigma^2}
+    \end{align*}
+    \begin{equation*}
+        \Longrightarrow g^F=\frac{1}{\sigma^2}(d\mu\otimes d\mu+2d\sigma\otimes d\sigma).
+    \end{equation*}
+    \item[(2)] \textbf{Geometr\'ia Esf\'erica:} En $\mathbb{S}_{n-1}$ tenemos $\mathcal{X}=\{1,\dots,n\}$ y $\mathbb{P}(X=i)=p_i>0$. 
+    Entonces, parametricemos $\mathbb{S}_{n-1}$ por $\theta^i=\sqrt{p_i}$. Luego, se puede probar lo siguiente:
+    \begin{enumerate}
+        \item[(i)] $\theta^i>0$ con $\sum_{i=1}^{n}(\theta^i)^2=1$,  %\Longrightarrow \Theta=\frac{1}{4}\mathbb{S}^{n-1}$,
+%        \begin{equation*}
+%          
+%        \end{equation*}
+        es decir, $\mathbb{S}_{n-1}$ es el octante positivo de la esfera. 
+        \item[(ii)] Se tiene que 
+        \begin{align*}
+            g_{ij}^F(\theta)&=\sum_{k=1}^{n}(\theta^k)^2\frac{\partial}{\partial\theta^i}\ln(\theta^k)^2\frac{\partial}{\partial\theta^j}\ln(\theta^k)^2\\
+            &=4\delta_{ij}\big|_{\mathbb{S}^{n-1}}=4g_{\mathbb{S}^{n-1}}^{std}
+        \end{align*}
+    \end{enumerate}
+    \item[(3)] \textbf{Geometr\'ia Euclideana:} Sea $p(x;\theta)=\exp(\theta^ih_i(x)-\psi(\theta))$ con
+    \begin{equation*}
+        \psi(\theta):=\ln\int_{\mathcal{X}}\exp(\theta^ih_i(x))dx.
+    \end{equation*}
+    \begin{equation*}
+        (\text{Modelo Exponencial})
+    \end{equation*}
+    Se puede probar que 
+    \begin{equation*}
+        g^F(\theta)=\frac{\partial^2\psi}{\partial\theta^i\partial\theta^j}d\theta^i\otimes d\theta^j.
+    \end{equation*}
+    En el caso de que $\psi(\theta)=\sum_{i=1}^{n}f_i(\theta^i)$, entonces obtendremos un modelo estad\'istico para la Geometr\'ia Euclideana. 
+\end{enumerate}
+
+\end{example}
+
+\begin{observation}
+Podemos ver que, el conc\'epto de m\'etrica en la geometr\'ia de la informaci\'on, al igual que en geometr\'ia Riemanniana, 
+nos permite definir los siguientes conceptos:
+\begin{itemize}
+    \item Longitudes
+    \item \'Angulos
+    \item Vol\'umenes
+    \item Gradientes
+\end{itemize}
+Sin embargo, en la geometr\'ia de la informaci\'on, requerimos de m\'as herramientas adem\'as de $g$ para poder definir:
+\begin{itemize}
+    \item Curvatura
+    \item Geod\'esicas
+\end{itemize}
+\end{observation}
+
+\begin{definition}
+Sea $\gamma\colon I=(a,b)\subset\mathbb{R}\to(M,g)$ una curva. 
+Sea $\frac{d\gamma}{dt}$ su vector tangente. Definimos la \textit{\textbf{longitud}} de $\gamma$ como el n\'umero
+\begin{align*}
+    l(\gamma):=\int_a^b\sqrt{g\left(\frac{d\gamma}{dt},\frac{d\gamma}{dt}\right)}dt=\int_a^b\sqrt{g_{ij}(x)\dot{x}^i\dot{x}^j}dt.
+\end{align*}
+\end{definition}
+
+\begin{definition}
+Sea $R\subseteq(M,g)$ una regi\'on cuya cerradura es compacta y tal que $R\subseteq\mathbf{x}(U)$. Definimos el \textit{\textbf{vol\'umen}} de $R$ como 
+\begin{equation*}
+    \text{Vol}(R):=\int_{\mathbf{x}^{-1}(R)}\sqrt{\text{det}(g)}dx^1\cdots dx^n.
+\end{equation*}
+\end{definition}
+
+\begin{observation}
+Se puede ver que $l(\gamma)$ y $\text{Vol}(R)$ no dependen de las coordenadas, es decir, est\'an bien definidas.     
+\end{observation}
+
+\begin{example}
+La \textit{\textbf{prior de Jeffrey}} en estad\'istica Bayesiana es la distribuci\'on
+\begin{equation*}
+    f(\theta)=\sqrt{\text{det}\mathcal{I}_{ij}(\theta)}=\sqrt{\text{det}g^F(\theta)}.
+\end{equation*}
+De las definiciones anteriores vemos que entonces la prior de Jeffrey corresponde al elemento de
+volumen invariante en el espacio de par\'ametros de un modelo estad\'istico definido por la m\'etrica de Fisher.
+\end{example}
+
+\begin{example}
+Se define la \textit{\textbf{energia de una curva}} como
+\begin{equation*}
+    E(\gamma)=\int_a^bg(\gamma,\gamma)dt.
+\end{equation*}
+Se puede probar que $E(\gamma)\geq \frac{1}{b-a}l(\gamma)^2$.
+\end{example}
+
+\section{Estad\'isticas Suficientes}
+
+\begin{definition}
+Sea $p(x;\theta)$ un modelo estad\'istico y sea $y=k(x)$ una funci\'on (que puede ser muchos a 1) y sea
+\begin{equation*}
+    K_p(y;\theta):=\sum_{x\colon k(x)=y}p(x;\theta).
+\end{equation*}
+Decimos que $k(x)$ es un \textit{\textbf{estad\'istico suficiente}} para $\theta$ si 
+\begin{equation*}
+    p(x;\theta)=K_p(y;\theta)h(x).
+\end{equation*}
+\end{definition}
+
+\begin{theorem}[\textbf{Chentsov. 1974}~\cite{chentsov1982statiscal}]
+En $\mathbb{S}_{n-1}$ se cumplen los siguientes enunciados:
+\begin{enumerate}
+    \item[(i)] $g^F(\theta)$ es invariante por estad\'isticos suficientes.
+    \item[(ii)] Si $g(\theta)$ es una m\'etrica invariante por estad\'isticos suficientes
+    \begin{equation*}
+        \Longrightarrow g(\theta)=c\cdot g^F(\theta),
+    \end{equation*}
+    con $c\in\mathbb R$ una constante.
+\end{enumerate}
+\end{theorem}
+
+\begin{observation}
+Podemos notar lo siguiente:
+\begin{enumerate}
+    \item[(1)] El teorema anterior, junto con las definiciones previas, termina de contestar la pregunta 2 de la secci\'on 6.3 de estas notas (existencia 
+    y unicidad del concepto de distancia en $p(x;\theta)$).
+    \item[(2)] Hay pruebas de extensiones de este teorema para el modelo exponencial y modelos exponenciales curvos~\cite{campbell1986extended,dowty2018chentsov}. 
+    \item[(3)] Dentro de esta teor\'ia, se puede incluso probar que todo modelo es exponencial~\cite{brody2007note} y 
+    entonces los puntos anteriores motivan sugerir que la m\'etrica de Fisher es \'unica para cualquier modelo estad\'istico.
+\end{enumerate}
+\end{observation}
+
+\section{Conexiones Afines y Geod\'esicas}
+
+\begin{theorem}
+Dada $(M,g)$, $g_p$ induce un isomorfismo entre $T_pM$ y $T_p^*M$.    
+\end{theorem}
+
+Como idea para la demostraci\'on, podemos ver que, dado $v\in T_pM$, $\alpha_v:=g_p(v,\cdot)$. 
+Luego, dada $\alpha\in T_pM$, $v^\alpha$ es el vector tal que 
+\begin{equation*}
+    \alpha_p=g_p(v^\alpha,\cdot)
+\end{equation*}
+En coordenadas, tenemos que 
+\begin{align*}
+    \alpha_v&=g_{ij}dx^i\otimes dx^j\left(v^r\frac{\partial}{\partial x^r},\cdot\right)\\
+    &=g_{ij}v^rdx^i\left(\frac{\partial}{\partial x^r}\right)dx^j\\
+    &=g_{ij}v^r\delta_r^idx^j=g_{ij}v^idx^j
+\end{align*}
+Se puede ver que $v^\alpha=g^{ij}\alpha_j\frac{\partial}{\partial x^i}$
+
+\begin{example}[\textbf{Muy Importante}]
+Dada $(M,g)$ y $f\colon M\to\mathbb{R}$, se tiene que $df_p\in T_p^*M$. Adem\'as 
+\begin{equation*}
+    df=\frac{\partial f}{\partial x^i}dx^i.
+\end{equation*}
+Entonces, usando el isomorfismo de arriba, tenemos que el \textbf{gradiente} de $f$, $\text{grad}_pf$, es el vector dado por
+\begin{equation*}
+    df_p=g_p(\text{grad}_pf,\cdot)\,.
+\end{equation*}
+En coordenadas, se tiene que 
+\begin{equation*}
+    \text{grad}f=g^{ij}\frac{\partial f}{\partial x^i}\frac{\partial}{\partial x^j}.
+\end{equation*}
+Como caso particular, podemos dar el siguiente: en $\mathbb{R}^n$
+\begin{equation*}
+    g^{std}=dx^1\otimes dx^1+\cdots+dx^n\otimes dx^n
+\end{equation*}
+y en coordenadas cartesianas $g^{ij}=\delta^{ij}$
+\begin{equation*}
+    \Longrightarrow\text{grad}f=\delta^{ij}\frac{\partial f}{\partial x^i}\frac{\partial}{\partial x^j}
+\end{equation*}
+recuperando entonces la noci\'on de gradiente usual en $\mathbb R^n$.
+\end{example}
+
+\begin{theorem}
+Se tiene que $v^*$ satisface
+\begin{equation*}
+    v^*=\underset{\|v\|_g=1}{\text{arg}\max}\,df_p(v)\iff v^*=\frac{\text{grad}_pf}{\|\text{grad}_pf\|_g}
+\end{equation*}
+\end{theorem}
+
+\noindent\textbf{En Conclusi\'on:} En $(M,g)$, si queremos optimizar $f$, tenemos que usar el \textbf{\textit{flujo gradiente riemanniano (natural)}}
+\begin{equation*}
+    \dot{\gamma}(t)=-\text{grad}_{\gamma(t)}f(\gamma(t))
+\end{equation*}
+lo cual es una definici\'on intr\'inseca, pues no depende de las coordenadas. 
+
+En coordenadas, escribimos
+\begin{equation}
+    \dot{x}^i(t)=-g^{ij}(x(t))\frac{\partial f}{\partial x^j}(x(t))
+\end{equation}
+
+\begin{definition}
+Una \textbf{\textit{conexi\'on af\'in}} en $M$ es un mapa $\nabla\colon\mathfrak{X}(M)\times\mathfrak{X}(M)\to\mathfrak{X}(M)$ tal que, $\forall X,Y,Z\in\mathfrak{X}(M)$ y $f,g\in C^{\infty}(M)$
+\begin{enumerate}
+    \item[(i)]\textbf{Linealidad 1:} $\nabla_{fX+gY}Z=f\nabla_XZ+g\nabla_YZ$.
+    \item[(ii)]\textbf{Linealidad 2:} $\nabla_X(Y+Z)=\nabla_XY+\nabla_XZ$.
+    \item[(iii)]\textbf{Leibniz:} $\nabla_X(fY)=f\nabla_XY+X(f)Y$
+\end{enumerate}
+\end{definition}
+
+\noindent\textbf{En Coordenadas:} $X=X^i\frac{\partial}{\partial x^i}$ y $Y=Y^j\frac{\partial}{\partial x^j}$.
+\begin{align*}
+    \Longrightarrow\nabla_XY&=\nabla_{X^i\frac{\partial}{\partial x^i}}\left(Y^j\frac{\partial}{\partial x^j}\right)\\
+    &=X^i\nabla_{\frac{\partial}{\partial x^i}}\left(Y^j\frac{\partial}{\partial x^j}\right)\\
+    &=X^iY^j\underbrace{\nabla_{\frac{\partial}{\partial x^i}}\frac{\partial}{\partial x^j}}_{\Gamma_{ij}^k\frac{\partial}{\partial x^k}}+X^i\frac{\partial Y^j}{\partial x^i}\frac{\partial}{\partial x^j}\\
+    &=\left(X^iY^j\Gamma_{ij}^k+X^i\frac{\partial Y^k}{\partial x^i}\right)\frac{\partial}{\partial x^k}
+\end{align*}
+\begin{equation}
+    \Longrightarrow\nabla_XY=\left(X^iY^j\Gamma_{ij}^k+X^i\frac{\partial Y^k}{\partial x^i}\right)\frac{\partial}{\partial x^k}.
+\end{equation}
+
+En la serie de igualdades anteriores, se tiene que $\Gamma_{ij}^k$ son llamados \textit{\textbf{s\'imbolos de Christoffel}}, donde $\Gamma_{ij}^k\leftrightarrow\nabla$.
+
+\begin{example}
+Sea $\gamma$ una curva y sean $X=\dot{\gamma}$ y $Y=\dot{\gamma}$. De esta manera, 
+\begin{equation*}
+    \dot{\gamma}=\dot{x}^i\frac{\partial}{\partial x^i}.
+\end{equation*}
+Tenemos entonces que la ecuaci\'on
+\begin{equation*}
+    \nabla_{\dot{\gamma}}\dot{\gamma}=\left(\dot{x}^i\dot{x}^j\Gamma_{ij}^k+\ddot{x}^k\right)\frac{\partial}{\partial x^k}
+\end{equation*}
+se le conoce como la \textbf{\textit{aceleraci\'on}} de $\gamma$.
+\end{example}
+
+\begin{definition}
+Las curvas con aceleraci\'on igual a cero se llaman \textit{\textbf{geod\'esicas}}.   
+\end{definition}
+
+\begin{observation}
+Las ecuaciones para obtener las geod\'esicas son:
+\begin{equation*}
+    \ddot{x}^k+\dot{x}^i\dot{x}^j\Gamma_{ij}^k=0.
+\end{equation*}
+\end{observation}
+
+\begin{definition}
+Sea $(M,g)$ y sea $\nabla$ una conexi\'on af\'in. Decimos que $\nabla$ es \textit{\textbf{compatible}} con $g$ si
+\begin{equation*}
+    Z(g(X,Y))=g(\nabla_ZX,Y)+g(X,\nabla_ZY).
+\end{equation*}
+Decimos que $\nabla$ ($\leftrightarrow\Gamma_{ij}^k$) es \textbf{\textit{sim\'etrica}} si 
+\begin{equation*}
+    \Gamma_{ij}^k=\Gamma_{ji}^k,\quad\forall i,j,k=1,\dots,n.
+\end{equation*}
+\end{definition}
+
+\begin{theorem}[\textbf{Fundamental de la Geometr\'ia Riemanniana}]
+Sea $(M,g)$ variedad riemanniana. Entonces, existe una \'unica conexi\'on $\nabla_{LC}$ tal que:
+\begin{enumerate}
+    \item[(i)] $\nabla_{LC}$ es compatible con $g$.
+    \item[(ii)] $\nabla_{LC}$ es sim\'etrica.
+\end{enumerate}
+donde a $\nabla_{LC}$ se le conoce como la conexi\'on de Levi-Civita.
+\end{theorem}
+
+\noindent\textbf{En Coordenadas:} ($\nabla\leftrightarrow\Gamma_{ij}^k$)
+\begin{equation*}
+\Gamma_{ij}^k=\frac{1}{2}g^{km}(g_{im,j}+g_{jm,i}-g_{ij,m})
+\end{equation*}
+donde $g_{im,k}=\frac{\partial}{\partial x^k}g_{im}$.
+
+\begin{example}
+$\mathbb{R}^n$, $g^{std}=g_{ij}dx^i\otimes dx^j=\delta_{ij}dx^i\otimes dx^j$ 
+\begin{equation*}
+    \Gamma_{ij}^k=0.
+\end{equation*}
+Entonces, las geod\'esicas de $(\mathbb{R}^n,g^{std})$ est\'an dadas por
+\begin{equation*}
+    \ddot{x}^k =0\,. %+\Gamma_{ij}^k\dot{x}^i\dot{x}^j=0.
+\end{equation*}
+Por lo tanto, est\'an dadas por rectas:
+\begin{equation*}
+    x^k(s)=a^ks+b^k,\quad a^k,b^k\in\mathbb{R}.
+\end{equation*}
+\end{example}
+
+\begin{definition}
+Sea $\nabla$ una conexi\'on en $M$. Definimos la \textbf{\textit{curvatura}} de $\nabla$ como el tensor (1,3) dado por
+\begin{equation*}
+    R^{\nabla}(X,Y,Z):=\nabla_X\nabla_YZ-\nabla_Y\nabla_XZ-\nabla_{[X,Y]}Z
+\end{equation*}
+donde 
+\begin{equation*}
+    [X,Y]:=XY-YX
+\end{equation*}
+es conocido como el \textit{\textbf{corchete de Lie}}
+\end{definition}
+
+\begin{observation}
+Se puede demostrar que $[X,Y]$ es un campo vectorial.     
+\end{observation}
+
+\begin{definition}
+$(M,\nabla)$ se dice \textbf{\textit{plana}} si $R^\nabla=0$.    
+\end{definition}
+
+\section{Generalizaci\'on de la\\
+Geometr\'ia Riemanniana}
+
+\begin{definition}
+Sea $(M,g)$ variedad riemanniana y sean $\nabla$ y $\nabla^*$ dos conexiones afines sim\'etricas en $M$. Decimos que $\nabla$ y $\nabla^*$ son \textit{\textbf{duales}} con respecto a $g$ si 
+\begin{equation*}
+    Z(g(X,Y))=g(\nabla_ZX,Y)+g(X,\nabla_Z^*Y).
+\end{equation*}
+\end{definition}
+
+\begin{observation}
+Si $\nabla=\nabla^*$ entonces $\nabla=\nabla_{LC}$.    
+\end{observation}
+
+\begin{definition}
+A $(M,g,\nabla,\nabla^*)$ se le llama \textit{\textbf{variedad estad\'istica}}.    
+\end{definition}
+
+\begin{theorem}[\textbf{Fundamental de la Geometr\'ia de la Informaci\'on}]\cite{nielsen2020elementary}
+Dada $(M,g,\nabla)$, se cumplen los siguientes enunciados:
+\begin{enumerate}
+    \item[(i)] Existe una \'unica conexi\'on $\nabla^*$ dual de $\nabla$ con respecto de $g$.
+    \item[(ii)] $R^\nabla=0$ si y solo si $R^{\nabla^*}=0$ (en este caso se dice que la variedad estad\'istica es \textbf{dualmente plana}).
+\end{enumerate}
+\end{theorem}
+
+\begin{theorem}
+Sea $D\colon M\times M\to\mathbb{R}$ una divergencia sobre $M$. Entonces $D$ induce la variedad estad\'istica $(M,g^D,\nabla^D,\nabla^{*D})$ dada por
+\begin{align*}
+    (g^D)_{ij}&=\frac{\partial}{\partial\theta_1^i}\frac{\partial}{\partial\theta_1^j}D\bigl(\theta(P_1)\|\theta(P_2)\bigl)\Big|_{\theta(P_1)=\theta(P_2)}\\
+    (\Gamma^D)_{ijk}&=-\frac{\partial}{\partial\theta_1^i}\frac{\partial}{\partial\theta_1^j}\frac{\partial}{\partial\theta_2^k}D\bigl(\theta(P_1)\|\theta(P_2)\bigl)\Big|_{\theta(P_1)=\theta(P_2)}\\
+    (\Gamma^{*D})_{ijk}&=-\frac{\partial}{\partial\theta_2^i}\frac{\partial}{\partial\theta_2^j}\frac{\partial}{\partial\theta_1^k}D\bigl(\theta(P_1)\|\theta(P_2)\bigl)\Big|_{\theta(P_1)=\theta(P_2)}.
+\end{align*}
+\end{theorem}
+
+\begin{observation}
+Si $D=D_f$, entonces $g^D=g^F$. Adem\'as, si estamos en la familia exponencial
+\begin{equation*}
+    \exp(\theta^ah_a(x)-\psi(\theta)).
+\end{equation*}
+Entonces, tenemos que 
+\begin{equation*}
+    g^F(\theta)=\frac{\partial^2\psi}{\partial\theta^a\partial\theta^b}d\theta^a\otimes d\theta^b.
+\end{equation*}
+y la variedad es dualmente plana.
+\end{observation}
+
+%\section{Aplicaciones a la\\
+%F\'isica Estad\'istica}
+
+%\subsection*{Motivaci\'on}
+%En esta secci\'on, daremos solo una breve introducci\'on a las posibles aplicaciones de la Geometr\'ia de la Informaci\'on, entre las cuales, est\'a la F\'isica Estad\'isitica. Los puntos principales que nos servir\'an como motivaci\'on, ser\'an:
+%\begin{itemize}
+%    \item \textbf{Efecto Mpemba:} Congelaci\'on de agua caliente ocurre a mayor velocidad que la congelaci\'on de agua fr\'ia
+%    \item \textbf{Relajaci\'on Asim\'etrica (Proceso Ornstein–Uhlenbeck):} Proceso estoc\'astico que estudia la velocidad de una particula Browniana bajo fricci\'on. 
+%\end{itemize}
+
+%En este caso, estudiaremos un sistema termodin\'amico a partir de modelos estad\'isticos con espacio fase
+%\begin{equation*}
+%    \Gamma:=(T^*Q)^N,\quad N\approx10^{23}
+%\end{equation*}
+%y una funci\'on 
+%\begin{equation*}
+%    \rho\colon\Gamma\to[0,1]
+%\end{equation*}
+%Si $x\in\Gamma$ se puede ver que 
+%\begin{equation*}
+%    \rho(x;\theta)=\exp(\theta^ah_a(x)-\psi(\theta))
+%\end{equation*}
+%lo cual forma una variedad dualmente plana en nuestro objeto de estudio. Utilizando la Geometr\'ia de la Informaci\'on, se ha propuesto el siguiente teorema:
+
+%\begin{theorem}[\textbf{Amari}]
+%Las soluciones de la ecuaci\'on
+%\begin{equation*}
+%    \dot{\gamma}(t)=-k\text{grad}_{\gamma(t)}D(q\|\gamma(t))
+%\end{equation*}
+%son $\nabla^*$-geod\'esicas que convergen a un punto de equilibrio $q$.
+%\end{theorem}
+
+%\begin{observation}
+%Pedimos a la curva que su aceleraci\'on sea en su direcci\'on, es decir, 
+%\begin{equation*}
+%    \nabla_{\dot{\gamma}}\dot{\gamma}=-k\dot{\gamma}.
+%\end{equation*}
+%\end{observation}
+
+%A partir de este tipo de teor\'ia junto con el Proceso Ornstein–Uhlenbeck, buscamos comprobar el efecto Mpemba, es decir, comprobar que el sistema caliente llega m\'as r\'apido al equilibrio $q$ que el sistema fr\'io. 
